@@ -1,0 +1,28 @@
+    <div class="form-container">
+     <h2>SignIn\SignUp</h2>
+     <form >
+      <div class="row">
+       <div class="col-25">
+        <label for="email">Email</label>
+       </div>
+       <div class="col-75">
+        <input type="text" id="email" value="dynamonagestro@gmail.com" name="email" placeholder="email" #email>
+       </div>
+      </div>
+      <div class="row">
+       <div class="col-25">
+        <label for="pass">Password</label>
+       </div>
+       <div class="col-75">
+        <input type="text" id="pass" value="nikhilnayyar" name="pass" placeholder="password" #pass>
+       </div>
+      </div>
+      <div class="row">
+       <input type="submit"  value="SignIn" (click)="$event.preventDefault();signIn(email.value,pass.value)">
+       <input type="submit"  value="SignUp" (click)="$event.preventDefault();signUp(email.value,pass.value)">
+      </div>
+      <div class="row">
+        <label id="msg">{{msg}}</label>
+      </div>
+     </form>
+    </div>
