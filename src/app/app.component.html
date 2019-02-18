@@ -1,0 +1,38 @@
+
+ <div id="header">
+  <ul>
+   <li><a (click)="loginPalet()">{{signInLabel}}</a></li>
+   <li><a (click)="postPalet()">Post</a></li>
+   <li><a href="#news">Notif.</a></li>
+   <li><a href="#contact">Chat</a></li>
+   <li style="float:left"><a (click)="sideBar()">&#9776;</a></li>
+  </ul>
+ </div>
+   
+ <div id="body" (click)="bodyClk()">
+  <div id="sidebar" (click)="$event.stopPropagation()" >
+   <img  class="nik-special shadow" [src]="user?.image" style="width:200px;height:200px;" *ngIf="!!user?.image">
+   <span style="text-align:center;display:block; margin:10px 0;color:green">
+   {{user?.name}}
+   </span>
+   <ul style="display: block;">
+    <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
+    <li><a (click)="dash.style.display=dash.style.display=='block'?'none':'block'">Dashboard</a>
+      <ul #dash style="margin:0; margin-left: 10px;display: none;">
+         <li><a routerLink="/dashboard/general" routerLinkActive="active">general</a></li>
+         <li><a routerLink="/dashboard/others" routerLinkActive="active">others</a></li>
+         <li><a routerLink="/dashboard/privacy" routerLinkActive="active">privacy</a></li>
+         <li><a routerLink="/dashboard/container" routerLinkActive="active">container</a></li>    
+      </ul>
+    </li>
+   </ul>
+  </div>
+
+  <div id="palet" (click)="$event.stopPropagation();sidebar.style.display=='block'?(sidebar.style.display='none'):(void);">
+    <router-outlet name="palet"></router-outlet>
+  </div>
+        <router-outlet></router-outlet>
+ </div>
+
+    
+

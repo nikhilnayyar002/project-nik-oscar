@@ -1,0 +1,53 @@
+    <div class="form-container">
+     <div class="row" style="margin:15px auto;" >
+        <img  class="nik-special shadow" [src]="image" style="width:250px;height:250px;" *ngIf="!!image">
+     </div>
+     <form>
+      <div class="row">
+       <div class="col-25">
+        <label for="title">Name:</label>
+       </div>
+       <div class="col-75">
+        <input type="text" name="name" id="name"  [(ngModel)]="user.name" placeholder="Eg: Dynamo or Joe or Rohit">
+       </div>
+      </div>
+      <div class="row">
+       <div class="col-25">
+        <label for="link">Email:</label>
+       </div>
+       <div class="col-75">
+          <p>{{user?.email}}</p>
+       </div>
+      </div>
+      <div class="row">
+       <div class="col-25">
+        <label for="title">Phone no:</label>
+       </div>
+       <div class="col-75">
+        <input type="text" name="phone" id="phone"  [(ngModel)]="user.phone" placeholder="Eg: +91-9999955555">
+       </div>
+      </div>     
+       <div class="row">
+        <div class="col-25">
+         <label for="file">Upload Image:</label>
+        </div>
+        <div class="col-75">
+         <input type="file" name="file" style="margin:10px;" (change)="encodeImageFileAsURL($event)">
+        </div>
+       </div>
+       <div class="row">
+        <div class="col-25">
+         <label for="detail">detail</label>
+        </div>
+        <div class="col-75">
+         <textarea id="detail"  [(ngModel)]="user.about" name="user?.about" placeholder="Your self.." style="height:200px"></textarea>
+        </div>
+       </div>
+      <div class="row" *ngIf="!saving">
+       <input type="submit" value="Save" (click)="save()">
+      </div>
+       <div class="row">
+        <label id="msg">{{msg}}</label>
+      </div>
+     </form>
+    </div>

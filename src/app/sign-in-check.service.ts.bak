@@ -1,0 +1,57 @@
+import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { auth } from 'firebase/app';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SignInCheckService {
+
+  status:Observable<boolean>;
+  error="";
+  user;
+  constructor(public Auth: AngularFireAuth){
+    this.Auth.user.subscribe((user)=>{
+        this.status=of(user?true:false);
+        this.user=user;
+    });
+  	this.Auth.auth.onAuthStateChanged((user)=> {
+  		if (user) {
+        this.status=of(true);
+  		} else {
+        this.status=of(false);
+  		}
+	});
+  }
+
+  
+  login(email,pass) {
+	 this.Auth.auth.signInWithEmailAndPassword(email, pass)
+   .then((value)=>{this.status=true; resolve(true);})
+   .catch((error)=> {
+  		this.error= "login: "+ error.message;
+      this.status=of(false);
+	 });
+   
+  }
+
+  signup(email,pass) {
+	 this.Auth.auth.createUserWithEmailAndPassword(email, pass)
+   .then((value)=>{this.status=of(true)})
+   .catch((error)=> {
+	    this.error = "signup: "+ error.message ;
+      this.status=of(false);
+	 });
+  }
+
+  logout(email,pass) {
+  	this.Auth.auth.signOut()
+    .then((value)=>{this.status=of(true)})
+    .catch((error)=> {
+  		this.error= "logout: "+ error.message ;
+      this.status=of(false);
+	 });
+  }
+
+}
