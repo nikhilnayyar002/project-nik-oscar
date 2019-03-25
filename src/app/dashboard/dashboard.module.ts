@@ -7,6 +7,7 @@ import { ContainerComponent } from './container/container.component';
 import  { DashboardRoutingModule } from './dashboard-routing.module';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule} from '@angular/forms';
+import { MyModules } from '../my-modules';
 
 @NgModule({
   declarations: [GeneralComponent, PrivacyComponent, OthersComponent, ContainerComponent],
@@ -14,7 +15,8 @@ import { ReactiveFormsModule} from '@angular/forms';
     CommonModule,
     DashboardRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MyModules
   ]
 })
 export class DashboardModule { }

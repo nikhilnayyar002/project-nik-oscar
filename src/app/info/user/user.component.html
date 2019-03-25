@@ -1,0 +1,58 @@
+ <div class="form-container clearfix"  *ngIf='user'>
+     <div *ngIf='user.privacy.show_bgImage' style="margin:5px; background-size: cover; height:300px;border:1px solid #ccc;position: relative;" [style.background]="bgImage" [style.backgroundSize]="bgSize" [style.background-position-y]="user?.bgY">
+        <img  class="nik-special" [src]="image" style="width:200px;height:200px;position: absolute;bottom: 5px;left: 5px;">
+        <label class="custom-file-upload" style="z-index:0;position: absolute;bottom: 5px;right: 5px;" *ngIf="status!='?'" (click)="friendBtn()" >
+          {{status}}
+        </label>
+        <h2 style="color:white;position: absolute;bottom: 5px;left: 200px; padding: 5px 10px;background: #000000b0;border-radius: 5px;">
+          {{user?.name}}
+        </h2>
+     </div>
+     <div class="container" style="width: 25%;">
+    	<div class="right clearfix" style="">
+       		 <h3 style="color: white">Details</h3>
+         		 <a routerLink="./" routerLinkActive="selected" [routerLinkActiveOptions]="{ exact: true }" (click)="option='general'" class="row shadow-scale">
+          		 General	
+          	 </a> 
+          	 <div (click)="option=''" >
+          	   <a routerLink="./posts" routerLinkActive="selected" *ngIf='posts' class="row shadow-scale">
+        		   posts({{posts.datas.length}})	
+         		   </a> 
+         		   <a routerLink="./uploads" routerLinkActive="selected" *ngIf='uploads' class="row shadow-scale">
+        		   uploads({{uploads.datas.length}})
+         		   </a>
+         		 </div>
+   		</div>                     
+	  </div>
+   	 <div class="container" style="width: 75%;">
+			<div class="right" *ngIf="option=='general'">
+        	 <h3 style="color: white">Simple details:</h3>
+          	 	<div *ngIf='user.privacy.show_email' class="row" >
+        			<div class="col-15">
+        				 <p>Email:</p>
+       				</div>
+       				<div class="col-85">
+        				 <p>{{user?.email}}</p>
+      				</div>         	
+         	    </div>
+          		<div *ngIf='user.privacy.show_phone' class="row" >
+        			<div class="col-15">
+        				 <p>Phone:</p>
+       				</div>
+       				<div class="col-85">
+        				 <p>{{user?.phone}}</p>
+      				</div>         	
+          		</div>          
+         		<div *ngIf='user.privacy.show_about' class="row" >
+        			<div class="col-15">
+        				 <p>About:</p>
+       				</div>
+       				<div class="col-85">
+        				 <p>{{user?.about}}</p>
+      				</div>         	
+          		</div>
+     		</div>
+   	 		<router-outlet></router-outlet>
+   	 </div> 
+
+ </div>

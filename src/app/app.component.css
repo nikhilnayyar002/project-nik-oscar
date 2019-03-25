@@ -1,0 +1,63 @@
+#body {
+   padding:50px 10px;
+   position: relative; 
+}
+
+
+#header{
+  position: fixed;
+  top: 0; z-index: 2;
+  width: 100%; 
+}
+#header ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+#header ul li {
+  float: right;
+}
+
+#header ul li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+#header ul li a:hover {
+  background-color: #111;
+}
+
+.notification {
+  position: relative;
+  display: inline-block;
+}
+
+.notification .badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+}
+
+
+/*-------------------------------------------------------------palet*/
+/*
+#palet {
+  padding:0; margin:0;
+  width: 100%;
+  position: fixed; z-index:1;
+  overflow:auto;
+  max-height:90%;
+  left: 0;
+}
+*/
+

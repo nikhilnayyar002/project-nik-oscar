@@ -1,3 +1,75 @@
-<p>
-  others works!
-</p>
+
+ <div class="form-container clearfix" style="background:#bbb">
+
+    <div class="container">
+      <div class="left">
+         <h2>Simple details:</h2>
+
+            <div (click)="display='posts'" class="row shadow-scale" *ngIf="posts && (posts.datas.length>0)">
+             <h3 >Posts ({{posts.datas.length}})</h3>
+             <div [style.display]="display=='posts'?'block':'none'">
+              <a class="row shadow-scale" style="background: green;display:block;" *ngFor="let d of posts.datas; let i = index" (click)="select('posts',d)">
+              {{posts.names[i].slice(14)}}
+              </a>
+             </div>              
+            </div>
+
+            <div  (click)="display='uploads'" class="row shadow-scale" *ngIf="uploads && (uploads.datas.length>0)">
+             <h3 >Uploads ({{uploads.datas.length}})</h3>
+             <div [style.display]="display=='uploads'?'block':'none'">
+              <a class="row shadow-scale" style="background: green;display:block;" *ngFor="let d of uploads.datas; let i = index" (click)="select('uploads',d)">
+              {{uploads.names[i].slice(14)}}
+              </a>
+             </div> 
+            </div>
+            <ng-container *ngIf="(friends$ | async)?.datas as friends" >
+             <div (click)="display='friends';select('friends')" class="row shadow-scale">
+              <h3>Friends ({{friends.length}})</h3>
+              <div [style.display]="display=='friends'?'block':'none'">
+               <a routerLink="/info/users/{{d}}" class="row shadow-scale" style="background: green;display:block;" *ngFor="let d of friends;">
+               {{ps.getUser(d).name}}
+               </a>             
+              </div>              
+             </div>
+            </ng-container>
+            <ng-container *ngIf="(chats$ | async)?.datas as chats" >
+             <div (click)="display='chats';select('chats')" class="row shadow-scale">
+              <h3>Groups ({{chats.length}})</h3>
+              <div [style.display]="display=='chats'?'block':'none'">
+               <a routerLink="/info/groups/{{d}}" class="row shadow-scale" style="background: green;display:block;" *ngFor="let d of chats;">
+               {{ps.getChat(d).name}}
+               </a>             
+              </div>              
+             </div>
+            </ng-container>
+            <ng-container *ngIf="(templates$ | async)?.datas as templates" >
+              <div (click)="display='templates';select('templates')" class="row shadow-scale">
+               <h3>Templates ({{templates.length}})</h3>
+               <div [style.display]="display=='templates'?'block':'none'">
+                <ng-container *ngFor="let d of templates;">
+                <a routerLink="/template/design/{{templ?.type+'-'+d}}" *ngIf="ps.getTemplate(d) as templ" class="row shadow-scale" style="background: green;display:block;">
+                {{templ?.title}}
+                </a>
+                </ng-container>             
+               </div>
+              </div>
+            </ng-container>     
+      </div>
+    </div>    
+    <div class="container" *ngIf='data&&(data.iam=="post"||data.iam=="upload")'>
+      <div class="right">
+        <app-post-card *ngIf='data.iam=="post"'  style="display: block; width: 100%;" [post]="data" [user]="auth.user" [comments$]="ps.getComments(data.id)" >
+        </app-post-card>
+        <app-upload-card *ngIf='data.iam=="upload"' style="display: block; width: 100%;" [upload]="data" [user]="auth.user">
+        </app-upload-card>    
+      </div>
+      <div class="right">
+        <app-post-data [post]='data' *ngIf='data.iam=="post"'></app-post-data>
+        <app-upload-data [upload]='data' *ngIf='data.iam=="upload"'></app-upload-data> 
+      </div>            
+    </div>
+     
+
+
+ </div>
+ 

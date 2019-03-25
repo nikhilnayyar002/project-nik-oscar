@@ -1,3 +1,4 @@
+  <div id="overlay" class="overlay" *ngIf="!auth.status">
     <div class="form-container">
      <h2>SignIn\SignUp</h2>
      <form >
@@ -18,11 +19,12 @@
        </div>
       </div>
       <div class="row">
-       <input type="submit"  value="SignIn" (click)="$event.preventDefault();signIn(email.value,pass.value)">
-       <input type="submit"  value="SignUp" (click)="$event.preventDefault();signUp(email.value,pass.value)">
+       <input type="submit"  value="SignIn" (click)="signIn(email.value,pass.value)">
+       <input type="submit"  value="SignUp" (click)="signUp(email.value,pass.value)">
       </div>
       <div class="row">
         <label id="msg">{{msg}}</label>
       </div>
      </form>
     </div>
+  </div>

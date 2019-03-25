@@ -1,0 +1,90 @@
+   <div class="form-container">
+      <div class="row" *ngIf="!!post">
+       <input type="submit" [value]="editTitle" (click)="enable()">
+      </div>      
+     <form name="post">        
+      <div class="row" *ngIf="!!post">
+       <div class="col-25">
+        <label>Your post is posted:</label>
+       </div>
+       <div class="col-75">
+        <label>{{post.is_posted}}</label>
+       </div>      
+      </div> 
+
+      <div class="row">
+       <div class="col-25">
+        <label for="title">Post Title</label>
+       </div>
+       <div class="col-75">
+        <input type="text" name="title" id="title" [(ngModel)]="title" placeholder="Eg: Meet Nikhil Nayyar website">
+       </div>
+      </div>
+
+      <div class="row">
+       <div class="col-25">
+        <label for="acess">Make post</label>
+       </div>
+       <div class="col-75">
+        <input type="radio"  [formControl]="acess" name="acess" value="public" style="margin:14px;">public
+        <input type="radio" [formControl]="acess" name="acess" value="private" style="margin:14px; ">private
+       </div>
+      </div>
+
+      <div class="row">
+       <div class="col-25">
+        <label for="type">Type?</label>
+       </div>
+       <div class="col-75">
+        <input type="radio"  [formControl]="template" name="type" value="link" style="margin:14px; "checked>link
+        <input type="radio" [formControl]="template" name="type" value="template" style="margin:14px; ">template
+       </div>
+      </div>  
+
+      <div class="row">
+       <div class="col-25">
+        <label for="link">{{template.value=='link'?'Link':'Template ID'}}</label>
+       </div>
+       <div class="col-75">
+        <input type="text" name="link" id="link" [(ngModel)]="link" (paste)="pasteTemplate($event)" [placeholder]="template.value!='link'?'like: iTRz1553060540855':'like: https://nikhilnayyar.me/article/me'">
+       </div>
+      </div>
+
+      <fieldset style="margin-top:6px; min-width: 100%">
+       <legend>Optional</legend> 
+
+       <div class="row">
+        <div class="col-25">
+         <label for="file">Upload Image:</label>
+        </div>
+        <div class="col-75">
+         <input style="width: 20%" type="text" id="paste" placeholder="paste clipboard" (paste)="paste($event)">          
+         <input type="file" name="file" style="margin:10px;" (change)="encodeImageFileAsURL($event)">
+        </div>
+       </div>
+
+       <div class="row" style="padding:10px 5px; width:100%;">
+         <img [src]="img" style="width:100%;height:auto;">
+       </div>
+
+       <div class="row">
+        <div class="col-25">
+         <label for="detail">detail</label>
+        </div>
+        <div class="col-75">
+         <textarea id="detail" [formControl]="detail" name="detail" placeholder="Your post.." style="height:100px"></textarea>
+        </div>
+       </div>
+       
+      </fieldset>
+
+      <div class="row" *ngIf="!posting">
+       <input type="submit" value="post" (click)="doPost(true)">
+       <input type="submit" value="draft" (click)="doPost(false)">
+       <input type="submit" *ngIf="!!post" value="delete" (click)="delete()">
+      </div>
+       <div class="row">
+        <label id="msg">{{msg}}</label>
+      </div>
+     </form>
+    </div>

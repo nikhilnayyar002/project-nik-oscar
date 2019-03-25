@@ -1,0 +1,339 @@
+import { Component, OnInit } from '@angular/core';
+import { Observable, Subject ,of} from 'rxjs';
+import { debounceTime, map,distinctUntilChanged, switchMap} from 'rxjs/operators';
+import { PostService} from '../post.service';
+import { SignInCheckService} from '../sign-in-check.service';
+import { AngularFirestore} from '@angular/fire/firestore';
+import{DomSanitizer,SafeHtml} from '@angular/platform-browser';
+
+
+
+@Component({
+  selector: 'app-chat',
+  templateUrl: './chat.component.html',
+  styleUrls: ['./chat.component.css'],
+  styles : [`
+        :host {
+   			position: fixed;
+  			top:50px;
+  			right: 50px;
+  			z-index:1; 
+  		}	
+    `]  
+})
+export class ChatComponent implements OnInit {
+
+  users$;
+  private searchTerms = new Subject<string>();
+
+  friends;	//friends of mine
+  user;		//current chatting friend
+  msg="";	//msg buffer
+  sending=false;		
+  subsArr=[];	//holds subscribers
+  pointer=-1;	//current subscriber
+  display='friends';	//roam b/w views
+  fsubs;
+  subs;
+  csubs;
+
+  pool=[];
+  msgStore=[];
+
+  chatHisElem;
+  viewStateMsgs=[];
+
+
+
+
+  months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  
+  msgDate(d,cond=true) {
+    let t;
+    if(!cond) t=d.date;
+    else t=d.date.toDate();
+	  return  this.getDate(t)+' '+this.getTime(t);
+  }
+
+  getTime(date) {
+    return date.getHours()+':'+date.getMinutes();
+  }
+
+  getDate(date) {
+    return date.getDate()+' '+ this.months[date.getMonth()]+', '+date.getFullYear();
+  }
+
+  constructor(private sanitizer: DomSanitizer, private db:AngularFirestore, private ps:PostService, private auth:SignInCheckService) {}
+ 
+  // Push a search term into the observable stream.
+                      if(this.user && this.user.uid==this.subsArr[t].other.id) {
+                        let msg=data[data.length-1];
+                        if(msg.uid) this.createMsg(msg);
+                      }
+
+        this.subsArr[flag].subs=this.db.collection("users").doc(this.auth.user.uid).collection("chats").doc(this.user.uid).collection("messages").valueChanges().subscribe((data)=>{
+            this.subsArr[flag].pool=data;
+            this.pool=data;
+        });
+        else this.pool=this.subsArr[flag].pool;
+
+
+
+
+
+
+ 
+  ngOnInit(): void {
+    this.csubs=this.auth.check.subscribe({
+         next:(result)=>{
+          if(result) {
+    		    this.fsubs=this.db.collection("users").doc(result.uid).collection("others").doc("friends").valueChanges().subscribe((data:{datas:[];})=>{
+    			   this.friends=data.datas;
+             console.log('friends obtaained');
+    		    });         
+            this.subs=this.db.collection("users").doc(result.uid).collection("chats").valueChanges().subscribe((data:Array<{id:string;}>)=>{  
+                let uid='';
+                if(this.user) {
+                  uid=this.user.uid;
+                }
+                for(let i=0;i<this.subsArr.length;++i) 
+                  if(this.subsArr[i].subs) 
+                    this.subsArr[i].subs.unsubscribe();
+
+                let newSubsArr=[];
+                for(let i=0;i<data.length;++i) {
+                    let t=i;
+                    this.newSubsArr[t]={other:data[t], subs:null, pool:null};
+                    if(data[t].id!=uid) 
+                     this.newSubsArr[t].subs=this.db.collection("users").doc(result.uid).collection("chats").doc(data[t].id).collection("messages").valueChanges().subscribe((data)=>{
+                       if(this.user && this.user.uid==this.subsArr[t].other.id) {
+                          let l=this.subsArr[t].other.total-this.subsArr[t].other.seen;
+                          this.createMsg(data,l);
+                       }
+                       else  this.subsArr[t].pool=data;
+                     });
+                }
+                this.subsArr=newSubsArr;
+            });
+         } 
+        }  
+    });
+  }
+  ngAfterViewInit() {
+    this.chatHisElem=document.querySelector('.chat-history');
+  }
+
+  chatFriend(user) {
+  	this.user=user;
+  	let flag=null;
+    this.pool=[];
+  	for(let i=0;i<this.subsArr.length;++i) {
+  		if(this.subsArr[i].other.id==user.uid) {flag=i; break;}
+  	}
+  	if(flag!=null) {
+  	    this.pointer=flag;
+        this.pool=this.subsArr[flag].pool;
+  	}
+  	else {
+  		let t=this.subsArr.length;
+  		this.pointer=t;
+      let data={id:this.user.uid, seen:0, total:0, type:'user'};
+  		this.subsArr.push({other:data, subs:null, pool:null});
+  		this.subsArr[t].subs=this.db.collection("users").doc(this.auth.user.uid).collection("chats").doc(this.user.uid).collection("messages").valueChanges().subscribe((data)=>{
+          if(this.user && this.user.uid==this.subsArr[t].other.id) {
+            let l=this.subsArr[t].other.total-this.subsArr[t].pool.length;
+            this.createMsg(data,l);
+          }
+          else  this.subsArr[t].pool=data;
+    	});  		
+  	}    
+  	this.display='main';
+  }
+
+
+    if(this.subsArr[this.pointer].other.seen!=this.subsArr[this.pointer].other.total )
+         this.db.collection("users").doc(this.auth.user.uid).collection("chats").doc(this.user.uid).update({ 
+            seen:this.subsArr[this.pointer].other.total
+    });
+
+
+  back() {
+  	if(this.subsArr[this.pointer].pool==null || this.subsArr[this.pointer].pool.length==0) {
+      /* delete a friend chat if its msgs are zero */
+      this.subsArr[this.pointer].subs.unsubscribe();
+      let t3=this.db.collection("users").doc(this.auth.user.uid).collection("chats").doc(this.user.uid).delete() 
+      .then(()=> { 
+         this.display='chats';
+      })
+      .catch((error)=>{
+         console.log(error.message);
+      });
+  	}
+    else this.display='chats';
+    this.user=null;
+  }
+
+  clearMsgs() {
+  	let coll=[];
+  	let Error=false, errorMsg='';
+  	for(let i of this.subsArr[this.pointer].pool) {
+  	      let t=this.db.collection("users").doc(this.auth.user.uid).collection("chats").doc(this.user.uid).collection("messages").doc(''+i.date.toDate().getTime()).delete()
+          .catch((error)=>{
+         	    errorMsg+=error.message+', '; Error=true;
+      	  });
+      	  coll.push(t);
+  	}
+    Promise.all(coll)
+       .then(()=> {
+          this.pool=[];
+          if(this.viewStateMsgs) {
+           let ul = document.querySelector('#msgs'); 
+           for(let i of this.viewStateMsgs) {
+              ul.removeChild(i);
+           }
+          }
+          if(Error) {
+          	console.log(errorMsg);
+          }
+       })
+      .catch((error)=> {
+            console.log(error.message);
+      });
+  }
+
+  send() {
+  	this.sending=true;
+  	let datet=new Date();
+    let msgId=datet.getTime()+'';
+    let fMsgNot=true;
+    if(!this.subsArr[this.pointer].other.total) fMsgNot=false;
+    let msg={
+          uid:'',
+          name:'',
+          date:datet,
+          type:'message',
+          data:this.msg
+    };
+
+    let p=this.db.collection("users").doc(this.user.uid).collection("chats").doc(this.auth.user.uid).valueChanges().subscribe((data)=>{
+        p.unsubscribe();
+        let temp;
+        if(data) temp=data;
+        else temp={id:this.auth.user.uid, seen:0, total:0, type:'user'};
+        temp.total=temp.total+1;
+        let p1=this.db.collection("users").doc(this.user.uid).collection("chats").doc(this.auth.user.uid).collection("messages").doc(msgId).set({
+          uid:this.auth.user.uid,
+          name:this.auth.user.name,
+          date:datet,
+          type:'message',
+          data:this.msg    
+        });
+
+        let p2=this.db.collection("users").doc(this.auth.user.uid).collection("chats").doc(this.user.uid).collection("messages").doc(msgId).set(msg);
+        let p3=this.db.collection("users").doc(this.auth.user.uid).collection("chats").doc(this.user.uid).set({
+          id:this.user.uid, 
+          seen:this.subsArr[this.pointer].other.seen + 1, 
+          total:this.subsArr[this.pointer].other.total + 1, 
+          type:'user'
+        });
+        let p4=this.db.collection("users").doc(this.user.uid).collection("chats").doc(this.auth.user.uid).set(temp);
+        Promise.all([p1,p2,p3,p4])
+        .then(()=> {
+          this.sending=false;
+          if(fMsgNot) {this.createMsg(msg); console.log('create msg');}
+        })
+        .catch((error)=> {
+          console.log("chat send msg error: "+error.message);
+          this.sending=false;         
+        });
+    }); 
+
+  }
+
+  
+
+  createMsg(msg) {
+    let li;
+    let ul = document.querySelector('#msgs');
+    if(!msg.name) {
+
+          li = document.createElement('li');
+          li.className='clearfix';    
+
+          let div1 = document.createElement('div');
+          div1.classList.add("message-data", "align-right");
+
+          let span1 = document.createElement('span');
+          span1.classList.add("message-data-time");
+
+          let span2 = document.createElement('span');
+          span2.classList.add("message-data-name");
+
+          let i = document.createElement('i');
+          i.classList.add('fa','fa-circle','me');
+
+          let div2 = document.createElement('div');
+          div2.classList.add("message", "other-message","float-right");
+          div2.style.whiteSpace='pre-line';
+              
+          span1.textContent=this.msgDate(msg,false)+' ';
+          span2.textContent='Me';
+          div2.textContent=msg.data;
+
+          ul.appendChild(li);
+          li.appendChild(div1);
+          li.appendChild(div2);
+          div1.appendChild(span1);                  
+          div1.appendChild(span2);                  
+          div1.appendChild(i);
+
+    }
+    else  {
+
+          li = document.createElement('li');
+
+          let div1 = document.createElement('div');
+          div1.classList.add("message-data");
+
+          let span1 = document.createElement('span');
+          span1.classList.add("message-data-time");
+
+          let span2 = document.createElement('span');
+          span2.classList.add("message-data-name");
+
+          let i = document.createElement('i');
+          i.classList.add('fa','fa-circle','me');
+
+          let div2 = document.createElement('div');
+          div2.classList.add("message", "my-message");
+          div2.style.whiteSpace='pre-line';
+              
+          span1.textContent=this.msgDate(msg);
+          span2.textContent=msg.name;
+          div2.textContent=msg.data;
+
+          ul.appendChild(li);
+          li.appendChild(div1);
+          li.appendChild(div2);
+          div1.appendChild(span1);                  
+          div1.appendChild(span2);                  
+          div1.appendChild(i);
+
+    }  
+    this.chatHisElem.scrollTop=this.chatHisElem.scrollHeight;
+    this.viewStateMsgs.push(li);
+  }
+
+  ngOnDestroy() {
+  	if(this.fsubs) this.fsubs.unsubscribe();
+    if(this.csubs) this.csubs.unsubscribe();
+    if(this.subs) {
+      this.subs.unsubscribe();
+      for(let i=0;i<this.subsArr.length;++i) 
+        if(this.subsArr[i].subs) 
+          this.subsArr[i].subs.unsubscribe();
+    }
+
+  }
+
+}  

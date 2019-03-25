@@ -1,0 +1,14 @@
+.add-options {
+    width: 100%;
+    background: steelblue;
+    padding: 5px;
+    overflow-y: auto;
+    max-height: 400px;
+}
+.add-options .button {
+    padding: 5px;
+    margin: 5px;
+    background: orange;
+    color: white;
+    display: block;
+}

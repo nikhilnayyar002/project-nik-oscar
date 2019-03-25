@@ -1,91 +1,127 @@
-import { Component, OnInit } from '@angular/core';
+import { HostListener, Component, OnInit } from '@angular/core';
 import { SignInCheckService} from './sign-in-check.service';
-import { PaletService } from './palet.service';
-import { Router }   from '@angular/router';
-import { AngularFirestore} from '@angular/fire/firestore';
+import { Router}   from '@angular/router';
+import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+import { NotifyService} from './notify.service';
+import { FriendService} from './friend.service';
+import { ChatDirective } from './chat.directive';
+import { ViewChild, ComponentFactoryResolver } from '@angular/core';
+import { ChatComponent } from './chat/chat.component';
+import 'hammerjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
+//@AutoUnsubscribe().pipe(takeWhileAlive(this)) import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+
 export class AppComponent implements OnInit {
 
-  title = 'project-nik-oscar';
-  status=false;
-  user;
   signInLabel="SignIn\Up";
-  sidebar;body;
-  lastPalet="";
-  constructor(private db: AngularFirestore,public router:Router, private auth:SignInCheckService, public palet: PaletService){ }
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private fserv:FriendService, private notif:NotifyService, public router:Router, public auth:SignInCheckService){ }
+  fservSubs;
+  
+  @ViewChild(ChatDirective) chatHost: ChatDirective;
+  componentRef;
+
+
+  loadComponent() {
+    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(ChatComponent);
+    let viewContainerRef = this.chatHost.viewContainerRef;
+    viewContainerRef.clear();
+    this.componentRef = viewContainerRef.createComponent(componentFactory);
+  }
+
+  @HostListener('window:beforeunload', [ '$event' ])
+  beforeUnloadHander(event) {
+     this.auth.setStatus('offline',this.auth.user?this.auth.user.uid:'');
+  }
+
+
   ngOnInit() {
-    this.auth.status.subscribe({
-   			 next:(user:{uid:string})=>{
-      		this.status=user?true:false;
-          if(user)
-            this.db.doc(`users/${user.uid}`).valueChanges().subscribe((data)=>{
-                    this.user=data;
-            });
-          else this.user=null;
-    			if(this.status) this.signInLabel="SignOut";
+    type fType={friends_req:Array<string>;friends_conf:Array<string>;friends_req_rec:Array<string>;chats_req_rec:Array<string>; };
+    this.auth.check.subscribe({
+         next:(result)=>{
+          if(result) this.signInLabel="SignOut";
           else this.signInLabel="SignIn\Up";
-    		 }
-   		 });
-  }
-  ngAfterViewInit() {
-   this.sidebar=document.querySelector("#sidebar");
-   this.body=document.querySelector("#body");
+          
+          if(result) {
+            this.fservSubs=this.fserv.make_friends$.subscribe({
+               next:(data:fType)=>{
+
+                if(data.friends_req_rec) {
+                   this.notif.clearNotif("req");
+                   for(var i of data.friends_req_rec) {
+                     this.notif.push({ 
+                         msg:"friend reqest received",
+                         viewed:false,
+                          title:'friend_req',
+                         uid:i,
+                         link:'',user:''
+                     });
+                   }
+                   this.notif.setN(data.friends_req_rec.length);                 
+                }
+                if(data.friends_conf) {
+                  this.notif.clearNotif("conf");
+                  for(var i of data.friends_conf) {
+                    this.notif.push({ 
+                     msg:"You and he are now friends",
+                      viewed:false,
+                      title:'friend_conf',
+                     uid:i,
+                     link:'',user:''
+                   });
+                  }
+                  this.notif.setN(data.friends_conf.length);                  
+                }
+                if(data.chats_req_rec) {
+                  this.notif.clearNotif("chat_req");
+                  for(var i of data.chats_req_rec) {
+                    this.notif.push({ 
+                     msg:"Chat request Received.",
+                      viewed:false,
+                      title:'chat_req',
+                     uid:i,
+                     link:'',user:''
+                   });
+                  }
+                  this.notif.setN(data.chats_req_rec.length);                  
+                }
+               }
+            });
+            this.loadComponent();
+          }
+          else {         
+            if(this.fservSubs) this.fservSubs.unsubscribe();
+            if(this.componentRef) this.componentRef.destroy();
+            this.fservSubs=this.componentRef=null;
+            this.notif.clear();
+          }
+
+         }
+    });
+    /*
+    window.onresize=()=>{
+      console.log('w: '+window.innerWidth+', h:'+window.innerHeight);
+    }
+    */
   }
 
-  loginPalet() {
-   if(!this.palet.isOpen || this.lastPalet!="login") {
-      this.lastPalet="login";
-      if(this.signInLabel=="SignIn\Up") {
-        this.palet.isOpen=true;
-        this.router.navigate([{ outlets: { palet: "login-palet"  }}]);
-      }
-      else {this.palet.isOpen=false; this.signOut();}
-   }
-   else {
-    this.palet.isOpen=false;
-    this.router.navigate([{ outlets: { palet: null  }}]);
-   } 
-  }
-
-  postPalet() {
-   if(this.palet.isOpen && this.lastPalet=="post") {
-      this.palet.isOpen=false;
+  paletCheck(palet) {
+    //let t=window.pageYOffset;
+    //setTimeout(()=>{window.scrollTo(0, t)},0);
+    if(this.router.url.includes(palet)) {
       this.router.navigate([{ outlets: { palet: null  }}]);
-   }
-   else {
-      if(!this.status) {this.palet.isOpen=false;return;}
-      this.lastPalet="post";
-      this.palet.isOpen=true;
-      this.router.navigate([{ outlets: { palet: "post-palet"  }}]);
-   }
+    }
   }
 
-  sideBar() {
-   if(this.sidebar.style.display=="block")
-      this.sidebar.style.display="none";
-   else this.sidebar.style.display="block";
-  }
-
-  bodyClk() {
-   if(this.sidebar.style.display=="block")
-     this.sidebar.style.display="none";
-   this.palet.isOpen=false;
-   this.router.navigate([{ outlets: { palet: null  }}]);
-  }
- 
-  signOut() {
- 		  let obs=this.auth.signOut();
-  		obs.subscribe( ()=>{
-        this.router.navigate([{ outlets: { primary:'home',palet: null }}]);
-      },
-  		(error)=> {
-        console.log(error.code);console.log(error.message);
-  		});
+  bodyClk(event) {
+    if(event.target.id=='overlay') {
+      this.router.navigate([{ outlets: { palet: null  }}]);
+    }
   }
 
 }

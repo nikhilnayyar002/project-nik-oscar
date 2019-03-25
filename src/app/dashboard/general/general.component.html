@@ -1,14 +1,37 @@
     <div class="form-container">
-     <div class="row" style="margin:15px auto;" >
-        <img  class="nik-special shadow" [src]="image" style="width:250px;height:250px;" *ngIf="!!image">
+
+     <div style="background-size: cover; height:300px;border:1px solid #ccc;position: relative; margin:10px" [style.background]="bgImage" [style.backgroundSize]="bgSize" [style.background-position-y]="bgY">
+        <img  class="nik-special" [src]="image?image:'assets/images/no-user.png'" style="width:200px;height:200px;position: absolute;bottom: 5px;left: 5px;">
+        <label for="main-upload" class="custom-file-upload" style="position: absolute;bottom: 5px;left: 5px;" >
+          Upload
+        </label>
+        <div class="clearfix" style="position: absolute;top:5px;right: 5px;">
+          <label for="background-upload" class="custom-file-upload" style="float: right;">
+            Upload
+          </label>
+          <label *ngIf="auth.user.bgImage!=''" class="custom-file-upload" style="float: right;" (click)="editBG()">
+             {{edit?'save':'edit'}}
+          </label>
+        </div>        
+        <div class="clearfix" *ngIf="edit" style="position: absolute;top:40px;right: 5px;">               
+           <label class="custom-file-upload" style="float: right;" (click)="moveBG('d')">
+             &darr;
+           </label>
+           <label class="custom-file-upload" style="float: right;" (click)="moveBG('u')">
+             &uarr;
+           </label> 
+        </div>      
+        <input id="background-upload" type="file" (change)="encodeImageFileAsURL($event,'bg')"/>
+        <input id="main-upload" type="file" (change)="encodeImageFileAsURL($event,'main')"/>
      </div>
+
      <form>
       <div class="row">
        <div class="col-25">
         <label for="title">Name:</label>
        </div>
        <div class="col-75">
-        <input type="text" name="name" id="name"  [(ngModel)]="user.name" placeholder="Eg: Dynamo or Joe or Rohit">
+        <input type="text" name="name" id="name"  [(ngModel)]="auth.user.name" placeholder="Eg: Dynamo or Joe or Rohit">
        </div>
       </div>
       <div class="row">
@@ -16,7 +39,7 @@
         <label for="link">Email:</label>
        </div>
        <div class="col-75">
-          <p>{{user?.email}}</p>
+          <p>{{auth.user?.email}}</p>
        </div>
       </div>
       <div class="row">
@@ -24,28 +47,22 @@
         <label for="title">Phone no:</label>
        </div>
        <div class="col-75">
-        <input type="text" name="phone" id="phone"  [(ngModel)]="user.phone" placeholder="Eg: +91-9999955555">
+        <input type="text" name="phone" id="phone"  [(ngModel)]="auth.user.phone" placeholder="Eg: +91-9999955555">
        </div>
       </div>     
-       <div class="row">
-        <div class="col-25">
-         <label for="file">Upload Image:</label>
-        </div>
-        <div class="col-75">
-         <input type="file" name="file" style="margin:10px;" (change)="encodeImageFileAsURL($event)">
-        </div>
-       </div>
        <div class="row">
         <div class="col-25">
          <label for="detail">detail</label>
         </div>
         <div class="col-75">
-         <textarea id="detail"  [(ngModel)]="user.about" name="user?.about" placeholder="Your self.." style="height:200px"></textarea>
+         <textarea id="detail"  [(ngModel)]="auth.user.about" name="about" placeholder="Your self.." style="height:200px"></textarea>
         </div>
        </div>
       <div class="row" *ngIf="!saving">
        <input type="submit" value="Save" (click)="save()">
-      </div>
+       <input type="submit" disabled value="Delete Ac." (click)="delete()"> 
+       <a class="custom-file-upload" style="padding: 10px 10px;float: right;" routerLink="/info/users/{{auth.user?.uid}}">View as Other</a>         
+      </div>    
        <div class="row">
         <label id="msg">{{msg}}</label>
       </div>

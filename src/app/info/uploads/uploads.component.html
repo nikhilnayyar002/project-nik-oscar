@@ -1,0 +1,5 @@
+<div class="right">
+  <app-upload-card *ngFor="let upload of uploads$ | async; trackBy: trackById" [upload]="upload" [user]="getUser(upload.user_id)">
+  </app-upload-card>
+  <h3 style="color: white" *ngIf="(uploads$ | async)?.length==0">No records</h3>
+</div>
