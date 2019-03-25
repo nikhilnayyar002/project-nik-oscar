@@ -1,0 +1,26 @@
+.container {
+	float: left;
+	width:50%;
+	padding: 5px;
+}
+.row {
+	padding: 5px;
+	margin:5px;
+	background: orange;
+	color:white;
+}
+h3 {
+    display: block;
+    margin: 0;
+    padding: 20px; 
+}
+.left {
+	padding: 5px;
+	background: white;
+}
+.right {
+	padding: 5px;
+	background: brown;	
+	position: relative;
+}
+

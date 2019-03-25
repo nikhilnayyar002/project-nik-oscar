@@ -1,0 +1,51 @@
+  <div id="overlay" class="overlay">
+    <div class="form-container">
+    	<div *ngFor="let msg of notif.msgs;" class="notif-container" [style.background]="msg.viewed ? 'transparent': 'green'" style="margin: 5px;border: 1px solid #ccc;">
+    		<a style='display:inline-block; padding: 5px; width: 100%;' (click)="scroll(msg.link)">
+    			<div>
+    				<a routerLink="/info/users/{{msg.uid}}" [skipLocationChange]='true'>{{msg.user}}</a> ({{msg.title}})
+    			</div>
+    			<div>
+    				{{msg.msg}}
+    			</div>	
+    		</a>
+    	</div>
+        <div *ngFor="let msg of notif.req_msgs;" class="notif-container" style="background: yellow;">
+            <a style='display:inline-block; padding: 5px; width: 100%;'>
+                <div>
+                    <a routerLink="/info/users/{{msg.uid}}" [skipLocationChange]='true'>{{getUser(msg.uid).name}}</a>
+                </div>
+                <div>
+                    {{msg.msg}}
+                    <input type="submit" value="Accept" (click)="fserv.accept(msg.uid)">
+                </div>
+            </a>
+            <span class="badge shadow" (click)="ps.remove('req_msgs',msg.uid)">X</span>
+        </div>
+        <div *ngFor="let msg of notif.conf_msgs;" class="notif-container" style="background: pink;">
+            <a style='display:inline-block; padding: 5px; width: 100%;'>
+                <div>
+                    <a routerLink="/info/users/{{msg.uid}}" [skipLocationChange]='true'>{{getUser(msg.uid).name}}</a>
+                </div>
+                <div>
+                    {{msg.msg}}
+                </div>  
+            </a>
+            <span class="badge shadow" (click)="ps.remove('conf_msgs',msg.uid)">X</span>
+        </div>
+        <div *ngFor="let msg of notif.chat_req_msgs;" class="notif-container" style="background: orange;">
+            <a style='display:inline-block; padding: 5px; width: 100%;'>
+              <ng-container *ngIf="ps.getChat(msg.uid) as chat" >
+                <div>
+                    {{chat.name}}
+                </div>
+                <div>
+                    {{msg.msg}}
+                    <input type="submit" value="Accept" (click)="cserv.accept(chat)">                   
+                </div>  
+              </ng-container>              
+            </a>
+            <span class="badge shadow" (click)="ps.remove('chat_req_msgs',msg.uid)">X</span>
+        </div>      
+    </div>
+   </div> 

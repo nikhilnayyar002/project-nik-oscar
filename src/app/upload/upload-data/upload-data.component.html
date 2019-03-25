@@ -1,0 +1,105 @@
+    <div class="form-container">
+
+      <div class="row" *ngIf="!!upload">
+       <input type="submit" [value]="editTitle" (click)="enable()">
+      </div>  
+     <form name="upload">
+      <div class="row">
+       <div class="col-25">
+        <label for="types">File type</label>
+       </div>
+       <div class="col-75">
+        <select  [formControl]="type" (change)="fileTypeChanged()">
+          <ng-container *ngFor="let h of types">
+            <option [ngValue]="h">{{h.id}}</option>
+          </ng-container>
+        </select>
+       </div>
+      </div>
+
+	    <div class="row">
+       <div class="col-25">
+        <label>File Upload/Link Upload?:</label>
+       </div>
+       <div class="col-75">
+        <select  [formControl]="data_type">
+            <option value='link'>link</option>
+            <option value='file'>file</option>
+        </select>
+       </div>
+      </div>
+
+
+      <div class="template" >
+
+       <div class="row" *ngIf="data_type.value=='file'">
+        <div class="col-25">
+         <label for="file">Upload File:</label>
+        </div>
+        <div class="col-75">
+         <input *ngIf="type.value.id=='image'" style="width: 20%" type="text" id="paste" placeholder="paste clipboard" (paste)="paste($event)">
+         <input type="file" name="file" style="margin:10px;" (change)="encodeFile($event)" #in (click)="in.value=null;file=null;">
+        </div>
+       </div>
+
+       <div style="padding:10px 5px; width:100%;" *ngIf="data_type.value=='file'" >
+        <img [src]="img" style="width:100%;height:auto;">
+       </div>  
+
+       <div class="row" *ngIf="data_type.value=='link'">
+        <div class="col-25">
+         <label for="link">Link:</label>
+        </div>
+        <div class="col-75">
+         <input type="text" name="link" id="link" [(ngModel)]="link" placeholder="Eg: https://drive.google?56546465454_bla_bla">
+        </div>
+       </div>
+
+      </div>
+
+      <fieldset style="margin-top:6px">
+       <legend>Optional</legend> 
+
+       <div class="row">
+        <div class="col-25">
+         <label for="title">Upload Title</label>
+        </div>
+        <div class="col-75">
+         <input type="text" name="title" id="title" [(ngModel)]="title" placeholder="No-name">
+        </div>
+       </div>
+
+       <div class="row">
+        <div class="col-25">
+         <label for="detail">detail</label>
+        </div>
+        <div class="col-75">
+         <textarea id="detail" [formControl]="detail" name="detail" placeholder="Your post.." style="height:100px"></textarea>
+        </div>
+       </div>
+
+       <div class="row">
+        <div class="col-25">
+         <label for="acess">Make upload</label>
+        </div>
+        <div class="col-75">
+         <input type="radio"  [formControl]="acess" name="acess" value="public" style="margin:14px; "checked>public
+         <input type="radio" [formControl]="acess" name="acess" value="private" style="margin:14px; ">private
+        </div>
+       </div>
+
+
+      </fieldset>
+  
+
+      <div class="row" *ngIf="!uploading">
+       <input type="submit" value="upload" (click)="uploadData()">
+       <input type="submit" *ngIf="!!upload" value="delete" (click)="delete()">
+      </div>
+
+       <div class="row">
+        <label id="msg">{{msg}}</label>
+      </div>
+
+     </form>
+    </div>

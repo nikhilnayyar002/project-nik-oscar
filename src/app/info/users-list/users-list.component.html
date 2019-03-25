@@ -1,0 +1,11 @@
+<div class="right" *ngIf="group">
+ <ng-container *ngFor="let chatUser of group.users; trackBy: trackById"> 
+  <a style="display: block;" *ngIf="chatUser.status=='connected'" routerLink="/info/users/{{chatUser.uid}}" class="shadow row clearfix" >                    
+    <ng-container *ngIf="ps.getUser(chatUser.uid) as user" >
+       <img class="user-img" [src]="user.image?user.image:'assets/images/no-user.png'"/>
+         <div style="padding: 15px;display: inline-block;">{{user.name}}</div>
+    </ng-container>
+  </a>
+ </ng-container>
+</div>
+

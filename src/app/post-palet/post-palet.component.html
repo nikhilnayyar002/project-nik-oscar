@@ -1,81 +1,10 @@
-    <div class="form-container">
-     <form>
-      <div class="row">
-       <div class="col-25">
-        <label for="title">Post Title</label>
-       </div>
-       <div class="col-75">
-        <input type="text" name="title" id="title" [(ngModel)]="title" placeholder="Eg: Meet Nikhil Nayyar website">
-       </div>
-      </div>
-      <div class="row">
-       <div class="col-25">
-        <label for="link">Link</label>
-       </div>
-       <div class="col-75">
-        <input type="text" name="link" id="link" [(ngModel)]="link" placeholder="Eg: https://nikhilnayyar.me">
-       </div>
-      </div>
-      <div class="row">
-       <div class="col-25">
-        <label for="acess">Make post</label>
-       </div>
-       <div class="col-75">
-        <input type="radio"  [formControl]="acess" name="acess" value="public" style="margin:14px; "checked>public
-        <input type="radio" [formControl]="acess" name="acess" value="private" style="margin:14px; ">private
-       </div>
-      </div>
-      <div class="row">
-       <div class="col-25">
-        <label for="types">Post type</label>
-       </div>
-       <div class="col-75">
-        <select  [formControl]="type">
-          <ng-container *ngFor="let h of types">
-            <option [ngValue]="h">{{h}}</option>
-          </ng-container>
-        </select>
-       </div>
-      </div>
-      <div class="row">
-       <div class="col-25">
-        <label for="templates">Choose template</label>
-       </div>
-       <div class="col-75">
-        <select  [formControl]="template">
-          <ng-container *ngFor="let h of templates">
-            <option [ngValue]="h">{{h}}</option>
-          </ng-container>
-        </select>
-       </div>
-      </div>
-      <div class="template" *ngIf="template.value!='none'">
-       <div class="row">
-        <div class="col-25">
-         <label for="file">Upload Image:</label>
-        </div>
-        <div class="col-75">
-         <input type="file" name="file" style="margin:10px;" (change)="encodeImageFileAsURL($event)">
-        </div>
-       </div>
-        <div class="row" style="padding:10px 5px; width:100%; border:1px solid white;" >
-         <img [src]="img" style="width:100%;height:auto;">
-        </div>
-       <div class="row">
-        <div class="col-25">
-         <label for="detail">detail</label>
-        </div>
-        <div class="col-75">
-         <textarea id="detail" [formControl]="detail" name="detail" placeholder="Your post.." style="height:100px"></textarea>
-        </div>
-       </div>
-      </div>
-      <div class="row" *ngIf="!posting">
-       <input type="submit" value="post" (click)="doPost(true)">
-       <input type="submit" value="draft" (click)="doPost(false)">
-      </div>
-       <div class="row">
-        <label id="msg">{{msg}}</label>
-      </div>
-     </form>
+  <div id="overlay" class="overlay">
+
+    <div class="main-options clearfix">
+        <div (click)="display='post'" [style.border-bottom]="display=='post'? '3px solid indianred' : '3px solid #f1c9c9'">create post</div>
+        <div (click)="display='event'" [style.border-bottom]="display=='event'? '3px solid indianred' : '3px solid #f1c9c9'">create event</div>
     </div>
+
+    <app-post-data *ngIf="display=='post'"></app-post-data>
+
+  </div>

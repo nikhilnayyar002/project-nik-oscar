@@ -3,8 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginPaletComponent }  from './login-palet/login-palet.component';
 import { PostPaletComponent }   from './post-palet/post-palet.component';
 import { HomeComponent } from './home/home.component';
+import { NotifPaletComponent } from './notif-palet/notif-palet.component';
 import { PageNotFoundComponent }    from './page-not-found/page-not-found.component';
-import { AuthGuard }          from './auth/auth.guard';
+import { AuthGuard } from './auth/auth.guard';
+import { DashPaletComponent } from './dash-palet/dash-palet.component';
 const routes: Routes = [
   {
     path: 'login-palet',
@@ -18,6 +20,17 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'notif-palet',
+    component: NotifPaletComponent,
+    outlet: 'palet',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'dash-palet',
+    component: DashPaletComponent,
+    outlet: 'palet',
+  },  
+  {
     path: 'home',
     component: HomeComponent,
   },
@@ -27,8 +40,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+
+    })
+  ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
-
+export class AppRoutingModule {}

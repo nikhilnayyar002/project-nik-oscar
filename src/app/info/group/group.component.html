@@ -1,0 +1,41 @@
+ <div class="form-container clearfix"  *ngIf='group'>
+     <div style="margin:5px; background-size: cover; height:300px;border:1px solid #ccc;position: relative;" [style.background]="bgImage" [style.backgroundSize]="bgSize" [style.background-position-y]="group.bgY">
+        <h2 style="color: white;position: absolute;bottom: 5px;left: 5px;background: #000000b0;padding: 5px;border-radius: 5px;">
+          {{group?.name}}
+        </h2>
+     </div>
+
+
+     <div class="container" style="width: 25%;">
+    	<div class="right clearfix" style="">
+       		<h3 style="color: white">Details</h3>
+         	<a routerLink="./" routerLinkActive="selected" [routerLinkActiveOptions]="{ exact: true }" (click)="option='general'" class="row shadow-scale">
+          	General	
+          	</a> 
+          	<div (click)="option=''" >
+          	  <a routerLink="./users" routerLinkActive="selected" class="row shadow-scale">
+        		 users({{group.users.length}})	
+         	  </a> 
+         	  <a routerLink="./discussions" routerLinkActive="selected" class="row shadow-scale">
+        		 discussions({{group.discussions.length}})
+         	  </a>
+         	</div>
+   		</div>                     
+	   </div>
+   	 <div class="container" style="width: 75%;">
+			<div class="right" *ngIf="option=='general'">
+        	 <h3 style="color: white">Simple details:</h3>
+          	 	<div class="row" >
+        			<div class="col-15" style="width: 30%">
+        				 Created On:
+       				</div>
+       				<div class="col-85" style="width: 70%">
+        				 {{group.created.toDate() | date:'medium'}}
+      				</div>         	
+         	    </div>
+     		</div>
+   	 		<router-outlet></router-outlet>
+   	 </div> 
+
+ </div>
+

@@ -1,37 +1,20 @@
 
  <div id="header">
   <ul>
-   <li><a (click)="loginPalet()">{{signInLabel}}</a></li>
-   <li><a (click)="postPalet()">Post</a></li>
-   <li><a href="#news">Notif.</a></li>
-   <li><a href="#contact">Chat</a></li>
-   <li style="float:left"><a (click)="sideBar()">&#9776;</a></li>
+   <li><a [skipLocationChange]='true' [routerLink]="[{ outlets: { palet: ['login-palet'] } }]" (click)="paletCheck('login-palet')">{{signInLabel}}</a></li>
+   <li *ngIf="auth.user" ><a [skipLocationChange]='true' [routerLink]="[{ outlets: { palet: ['post-palet'] } }]" (click)="paletCheck('post-palet')">Post</a></li>
+   <li *ngIf="auth.user" ><a [skipLocationChange]='true' [routerLink]="[{ outlets: { palet: ['notif-palet'] } }]" (click)="paletCheck('notif-palet')" class="notification">Notif.<span *ngIf='notif.n!=0' class="badge">{{notif.n}}</span></a></li>
+   <li *ngIf="auth.user" (click)="chatBox.style.display='block'"><a >Chat</a></li>
+   <li style="float:left"><a [skipLocationChange]='true' [routerLink]="[{ outlets: { palet: ['dash-palet'] } }]" (click)="paletCheck('dash-palet')">&#9776;</a></li>
   </ul>
  </div>
    
- <div id="body" (click)="bodyClk()">
-  <div id="sidebar" (click)="$event.stopPropagation()" >
-   <img  class="nik-special shadow" [src]="user?.image" style="width:200px;height:200px;" *ngIf="!!user?.image">
-   <span style="text-align:center;display:block; margin:10px 0;color:green">
-   {{user?.name}}
-   </span>
-   <ul style="display: block;">
-    <li><a routerLink="/home" routerLinkActive="active">Home</a></li>
-    <li><a (click)="dash.style.display=dash.style.display=='block'?'none':'block'">Dashboard</a>
-      <ul #dash style="margin:0; margin-left: 10px;display: none;">
-         <li><a routerLink="/dashboard/general" routerLinkActive="active">general</a></li>
-         <li><a routerLink="/dashboard/others" routerLinkActive="active">others</a></li>
-         <li><a routerLink="/dashboard/privacy" routerLinkActive="active">privacy</a></li>
-         <li><a routerLink="/dashboard/container" routerLinkActive="active">container</a></li>    
-      </ul>
-    </li>
-   </ul>
-  </div>
-
-  <div id="palet" (click)="$event.stopPropagation();sidebar.style.display=='block'?(sidebar.style.display='none'):(void);">
-    <router-outlet name="palet"></router-outlet>
-  </div>
-        <router-outlet></router-outlet>
+ <div id="body" (click)="bodyClk($event)">
+  <div #chatBox id="chatBox" style="display: none">
+    <ng-template appChat></ng-template>
+  </div> 
+   <router-outlet name="palet"></router-outlet>
+   <router-outlet></router-outlet>    
  </div>
 
     

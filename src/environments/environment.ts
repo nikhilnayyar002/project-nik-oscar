@@ -4,7 +4,7 @@
 
 
 export const environment = {
-  production: false,
+  production: true,
   firebase: {
     apiKey: "AIzaSyBXkVTS0I9MN_7tM9JE20MJA0Eeyiyqst0",
     authDomain: "dynamo-t.firebaseapp.com",
