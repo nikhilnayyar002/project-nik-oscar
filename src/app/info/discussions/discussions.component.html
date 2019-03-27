@@ -1,17 +1,3 @@
-
-<div class="right" *ngIf="discussions">
- <ng-container *ngFor="let discussion of discussions?.filter(userDiscFilter); trackBy: trackById"> 
-  <a style="display: block;" class="shadow row clearfix" >                    
-    <ng-container *ngIf="ps.getChat(discussion.chat_id) as chatg" >
-      <img class="user-img" [src]="chatg.image?chatg.image:'assets/images/no-group.jpg'"/>
-      <div class="about" style="display: inline-block;padding: 5px;">
-        <div class="name" style="font-size: 20px">{{discussion.name}}</div>
-        <div class="name" style="color: grey">#{{chatg.name}} ({{discussion.users.length}} users)</div>    
-        <div class="name" style="color: grey">status: {{discussion.status}}</div>  
-      </div> 
-    </ng-container>
-  </a>
- </ng-container>
-</div>
-
-
+<p>
+  discussions works!
+</p>

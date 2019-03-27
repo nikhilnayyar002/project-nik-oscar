@@ -1,16 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+
 import { TemplateRoutingModule } from './template-routing.module';
+import { IntroComponent } from './intro/intro.component';
 import { DesignComponent } from './design/design.component';
-import { MainComponent } from './main/main.component';
-import { ViewComponent } from './view/view.component';
 
 @NgModule({
-  declarations: [DesignComponent, MainComponent, ViewComponent],
+  declarations: [IntroComponent, DesignComponent],
   imports: [
     CommonModule,
-    FormsModule,
     TemplateRoutingModule
   ]
 })

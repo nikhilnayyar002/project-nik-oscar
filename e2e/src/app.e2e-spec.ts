@@ -10,7 +10,7 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('Welcome to project-nik-oscar!');
+    expect(page.getTitleText()).toEqual('Welcome to nik-oscar!');
   });
 
   afterEach(async () => {
@@ -18,6 +18,6 @@ describe('workspace-project App', () => {
     const logs = await browser.manage().logs().get(logging.Type.BROWSER);
     expect(logs).not.toContain(jasmine.objectContaining({
       level: logging.Level.SEVERE,
-    }));
+    } as logging.Entry));
   });
 });

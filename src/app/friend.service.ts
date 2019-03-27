@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AngularFirestore} from '@angular/fire/firestore';
-import { SignInCheckService} from './sign-in-check.service';
-import { NotifyService} from './notify.service';
 import * as firebase from 'firebase/app';
+import { global, NotifType } from './shared/global';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,127 +15,89 @@ export class FriendService {
   msg;
   friends$;
   make_friends$;
-  constructor(private notify: NotifyService, private db: AngularFirestore, private auth:SignInCheckService) { 
-    let subs=this.auth.check.subscribe({
-         next:(result)=>{
-          if(result) {
-           this.friends$=new Observable((obs)=>{
-               this.db.collection("users").doc(result.uid).collection("others").doc("friends").valueChanges().subscribe((data:{datas:[];})=>{
-                 obs.next(data);
-               });     
-               return {unsubscribe() {}};
-            });
+  constructor(
+    private db: AngularFirestore,
+    private auth:AuthService)
+  {  }  
 
-            this.make_friends$=new Observable((obs)=>{
-                 this.db.collection("users").doc(result.uid).collection("others").doc("make_friends").valueChanges().subscribe((data:{friends_req:[];friends_conf:[];friends_req_rec:[];})=>{
-                  obs.next(data);
-                 });     
-                 return {unsubscribe() {}};
-            });
-          } 
-         }
-    });
-  }  
-
-
-
-  request(uid) {
-    this.msg="Sending Request..";  
-    this.db.collection("users").doc(this.auth.user.uid).collection("others").doc("make_friends").update({
-        friends_req: firebase.firestore.FieldValue.arrayUnion(uid)
-    })
-    .then(()=> {
-     	this.db.collection("users").doc(uid).collection("others").doc("make_friends").update({
-        friends_req_rec: firebase.firestore.FieldValue.arrayUnion(this.auth.user.uid)
-    	})
-    	.catch((error)=> {
-        	this.msg=error.message;
-        	//setTimeout(()=>{this.msg="Send Request";},1500);
-    	});
-    })    
-    .then(()=> {
-     	this.msg="Request Sent";
-    })
+ //operation can be retried.
+  request(id) {
+    this.db.collection("users").doc(id).collection("others").doc("make").update({
+        datas: firebase.firestore.FieldValue.arrayUnion({
+            type:NotifType.FriendRequest, id:id
+        })
+    }) 
     .catch((error)=> {
-        this.msg=error.message;
-        //setTimeout(()=>{this.msg="Send Request";},1500);
+        console.log(error.message);
     });
   }
   
-  unRequest(uid) {
-    this.msg="Postponing Request..";  
-    this.db.collection("users").doc(this.auth.user.uid).collection("others").doc("make_friends").update({
-        friends_req: firebase.firestore.FieldValue.arrayRemove(uid)
-    })
-    .then(()=> {
-      this.db.collection("users").doc(uid).collection("others").doc("make_friends").update({
-        friends_req_rec: firebase.firestore.FieldValue.arrayRemove(this.auth.user.uid)
+   //operation can be retried.
+  unRequest(id) {
+    this.db.collection("users").doc(id).collection("others").doc("make").update({
+      datas: firebase.firestore.FieldValue.arrayRemove({
+        type:NotifType.FriendRequest, id:id
       })
-      .catch((error)=> {
-          this.msg=error.message;
-          //setTimeout(()=>{this.msg="Send Request";},1500);
-      });
-    })    
-    .then(()=> {
-      this.msg="Request Postponed.";
-    })
+    })  
     .catch((error)=> {
-        this.msg=error.message;
-        //setTimeout(()=>{this.msg="Send Request";},1500);
+        console.log(error.message);
     });
   }
 
-
-  accept(uid) {
+  //operation can be retried.
+  accept(id) {
     this.msg="Accepting friend Request..";  
-    let p1=this.db.collection("users").doc(this.auth.user.uid).collection("others").doc("friends").update({
-        datas: firebase.firestore.FieldValue.arrayUnion(uid)
+    let p1=this.db.collection("users").doc(this.auth.user.id).collection("others").doc("friends").update({
+        datas: firebase.firestore.FieldValue.arrayUnion(id)
     });
-    let p2=this.db.collection("users").doc(this.auth.user.uid).collection("others").doc("make_friends").update({
-        friends_req_rec: firebase.firestore.FieldValue.arrayRemove(uid),
-        friends_conf: firebase.firestore.FieldValue.arrayUnion(uid),
-    });  
-
-    let p3=this.db.collection("users").doc(uid).collection("others").doc("friends").update({
-        datas: firebase.firestore.FieldValue.arrayUnion(this.auth.user.uid)
+    let p2=this.db.collection("users").doc(this.auth.user.id).collection("others").doc("make").update({
+      datas: firebase.firestore.FieldValue.arrayUnion({
+        type:NotifType.FriendConfirmed, id:id
+      })
+    }); 
+    let p3=this.db.collection("users").doc(id).collection("others").doc("friends").update({
+        datas: firebase.firestore.FieldValue.arrayUnion(this.auth.user.id)
     });
-    let p4=this.db.collection("users").doc(uid).collection("others").doc("make_friends").update({
-        friends_conf: firebase.firestore.FieldValue.arrayUnion(this.auth.user.uid),
-        friends_req: firebase.firestore.FieldValue.arrayRemove(this.auth.user.uid)      
-    });  
+    let p4=this.db.collection("users").doc(id).collection("others").doc("make").update({
+      datas: firebase.firestore.FieldValue.arrayRemove({
+        type:NotifType.FriendRequest, id:id
+      })
+    });
+    let p5=this.db.collection("users").doc(id).collection("others").doc("make").update({
+      datas: firebase.firestore.FieldValue.arrayUnion({
+        type:NotifType.FriendConfirmed, id:id
+      })
+    });      
 
-    Promise.all([p1,p2,p3,p4])
-    .then(()=> {
-      this.msg="Request accepted";
-    })
+    Promise.all([p4,p5,p3,p2,p1])
     .catch((error)=> {
-      this.msg=error.message;
-      //setTimeout(()=>{this.msg=""Accept Request";},1500);
+      console.log(error.message);
     });
   }
 
-  unFriend(uid) {
-    this.msg="Doing Un-friend Request..";
-    let p1=this.db.collection("users").doc(this.auth.user.uid).collection("others").doc("friends").update({
-        datas: firebase.firestore.FieldValue.arrayRemove(uid)
+   //operation can be retried.
+  unFriend(id) {
+
+    let p1=this.db.collection("users").doc(this.auth.user.id).collection("others").doc("friends").update({
+      datas: firebase.firestore.FieldValue.arrayRemove(id)
     });
-    let p2=this.db.collection("users").doc(this.auth.user.uid).collection("others").doc("make_friends").update({
-        friends_conf: firebase.firestore.FieldValue.arrayRemove(uid)
-    });  
-    let p3=this.db.collection("users").doc(uid).collection("others").doc("friends").update({
-        datas: firebase.firestore.FieldValue.arrayRemove(this.auth.user.uid)
+    let p2=this.db.collection("users").doc(this.auth.user.id).collection("others").doc("make").update({
+      datas: firebase.firestore.FieldValue.arrayRemove({
+       type:NotifType.FriendConfirmed, id:id
+      })
+    }); 
+    let p3=this.db.collection("users").doc(id).collection("others").doc("friends").update({
+      datas: firebase.firestore.FieldValue.arrayRemove(this.auth.user.id)
     });
-    let p4=this.db.collection("users").doc(uid).collection("others").doc("make_friends").update({
-        friends_conf: firebase.firestore.FieldValue.arrayRemove(this.auth.user.uid)     
-    });  
+    let p4=this.db.collection("users").doc(id).collection("others").doc("make").update({
+      datas: firebase.firestore.FieldValue.arrayRemove({
+        type:NotifType.FriendConfirmed, id:id
+      })
+    }); 
 
     Promise.all([p1,p2,p3,p4])
-    .then(()=> {
-      this.msg="Un-friend Request done.";
-    })
     .catch((error)=> {
-      this.msg=error.message;
-      //setTimeout(()=>{this.msg=""Accept Request";},1500);
+      console.log(error.message);
     });
   }
 

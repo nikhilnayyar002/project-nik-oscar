@@ -1,6 +1,6 @@
 
 import { Component, OnInit , Input, ChangeDetectorRef} from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormBuilder } from '@angular/forms';
 import { AngularFirestore} from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { finalize } from 'rxjs/operators';
@@ -18,18 +18,28 @@ import * as firebase from 'firebase/app';
 
 export class UploadDataComponent implements OnInit {
 
-  data_type = new FormControl('link');
-  type=new FormControl('');
-  detail=new FormControl('');
+  form=this.fb.group({
+    dataType: ['link'], //link | file
+    type:[{ext:'',id:'any'}], //file type
+    detail:[''],  //upload detail
+    acess:['public'], //acess
+
+  })
+
   status; user;
   error=false;
   types=[];
-  acess=new FormControl('public');
 
   @Input() upload; edit=false; editTitle='close'; prevId; 
   fileSelec=false;//rescue
 
-  constructor(private db: AngularFirestore, private storage: AngularFireStorage, private auth:SignInCheckService,private cdr:ChangeDetectorRef) { }
+  constructor(
+    private db: AngularFirestore,
+    private storage: AngularFireStorage,
+    private auth:SignInCheckService,
+    private cdr:ChangeDetectorRef,
+    private fb:FormBuilder
+  ) { }
 
   enable() {
      this.edit=!this.edit;

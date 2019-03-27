@@ -1,14 +1,3 @@
-<div (click)="list.style.display='none'">
- <div style="margin-top: 10px; background: lightblue;padding: 5px;color: white">
-  <h3 style="display: inline-block;">Search groups:</h3>
-  <div (click)="$event.stopPropagation()">
-    <input autocomplete="off"  #searchBox name='groupSearch' (input)="search(searchBox.value)" (focus)="list.style.display='block'"/>
-  	<div  #list id='list' style="display: none; padding: 5px;max-height: 300px;overflow-y: auto;position: absolute;background: white;z-index: 1;width: 75%;">
-      <a routerLink="/info/groups/{{group.id}}" class="row shadow-scale" style="display:block;" *ngFor="let group of groups$ | async">
-              {{group.name}}
-      </a>
-    </div> 
-   </div> 
- </div>
- <router-outlet></router-outlet>
-</div>
+<p>
+  groups works!
+</p>
