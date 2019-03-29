@@ -10,7 +10,6 @@ import { Discussion } from './model/discussion';
 import { Group } from './model/group';
 import { User } from './model/user';
 import { NotifType } from './shared/global';
-import { Promise } from 'q';
 import { promise } from 'protractor';
 import { ChatComponent } from './home/chat/chat.component';
 
@@ -27,7 +26,8 @@ export class ChatService {
   {  }  
   percent$:Observable<number>;
 
-  sendMessage(messageType, chatType, currChat, file, dataID):Promise<any>|Observable<Promise<any>> {
+  sendMessage(messageType, chatType, currChat, file, dataID)
+  :promise.Promise<any>|Observable<promise.Promise<any>> {
 
     let datet=new Date();  
     //create id
@@ -59,7 +59,7 @@ export class ChatService {
 
     function sendMsg(url,fileRef) {
       let msg:Message={
-        uid:this.auth.user.id,
+        userID:this.auth.user.id,
         userName:this.auth.user.name,
         date:datet,
         type:this.messageType, //'blob'|'post'|'upload'|'group'|'message'
@@ -75,7 +75,7 @@ export class ChatService {
   }
 
   
-  createDiscussion(discussionTitle,currChat:Group) {
+  createDiscussion(discussionTitle,currChat:Group):promise.Promise<void[]> {
     let datet=new Date();
     let discID=datet.getTime().toString().slice(-4)+this.auth.user.id.slice(0,4);
     let users=[];
@@ -103,7 +103,7 @@ export class ChatService {
   createChat(
     currChat:Group, groupInfo:boolean, selectedUsers:Array<User>,
     bgFile:File, bgY:string, groupTitle:string
-    ):Promise<any>|Observable<Promise<any>> {
+    ):promise.Promise<any>|Observable<promise.Promise<any>> {
 
     let users:Array<{id:string;status:string;}>=[], groupID:string, datet=new Date();
     if(!groupInfo) { //you are creating a group
@@ -122,13 +122,12 @@ export class ChatService {
        else filePath=currChat.fileRef;
        let fileRef=this.storage.ref(filePath);
 
-       //obs.next(sendMsg.bind(this)(url,filePath));
        return new Observable((obs)=>{
         try {
-          const task = this.storage.upload(filePath, bgFile);  
+          const task = this.storage.upload(filePath, bgFile);
+          this.percent$ = task.percentageChanges(); 
             let t=task.snapshotChanges().pipe(finalize(()=>{
-               let g=fileRef.getDownloadURL().subscribe((url)=>{
-                g.unsubscribe(); 
+               fileRef.getDownloadURL().pipe(take(1)).subscribe((url)=>{
                 obs.next(createReq.bind(this)(url,filePath));
                });
             }),take(1)).subscribe();
@@ -146,7 +145,7 @@ export class ChatService {
     if(this.groupInfo && !url) url=currChat.image;  //same image as before
     if(!this.groupInfo) {
     
-        let proms:Array<Promise<any>>=[];
+        let proms:Array<promise.Promise<any>>=[];
         proms.push(
           this.db.collection("chats").doc(groupID).set({ 
             users:users,    
@@ -211,7 +210,7 @@ export class ChatService {
 
         let t1;
         if(!notFound)
-         t1=this.db.collection("users").doc(this.auth.user.id).collection("others").doc("make_friends").update({
+         t1=this.db.collection("users").doc(this.auth.user.id).collection("others").doc("make").update({
             chats_req_rec: firebase.firestore.FieldValue.arrayRemove(chat.id)
          })
          .catch((error)=> {

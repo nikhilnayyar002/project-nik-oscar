@@ -1,15 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+
 
 @Component({
   selector: 'app-chat-message',
   templateUrl: './chat-message.component.html',
   styleUrls: ['./chat-message.component.css']
 })
-export class ChatMessageComponent implements OnInit {
+export class ChatMessageComponent {
+
+
+  @Input() msg;
+  //@Input() uid;
+  @Input() isLast;
 
   constructor() { }
 
-  ngOnInit() {
+  ngAfterViewInit() {
+    if(this.isLast) {
+      let x=document.querySelector('#n'+this.msg.id);
+      x.scrollIntoView(); 
+    }
   }
+
+  getID(id) { return 'n'+id; }
+ 
 
 }

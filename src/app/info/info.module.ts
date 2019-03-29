@@ -5,11 +5,13 @@ import { GroupsComponent } from './groups/groups.component';
 import { GroupComponent } from './group/group.component';
 import { UsersComponent } from './users/users.component';
 import { UserComponent } from './user/user.component';
-import { UserListComponent } from './user-list/user-list.component';
 import { DiscussionsComponent } from './discussions/discussions.component';
 import { InfoRoutingModule } from './info-routing.module';
 import { ViewsComponent } from './views/views.component';
 import { ViewComponent } from './view/view.component';
+import { UsersListComponent } from './user-list/user-list.component';
+import { PostModule } from '../post/post.module';
+import { UploadModule } from '../upload/upload.module';
 
 @NgModule({
   declarations: [
@@ -18,14 +20,16 @@ import { ViewComponent } from './view/view.component';
     GroupComponent,
     UsersComponent,
     UserComponent,
-    UserListComponent,
+    UsersListComponent,
     DiscussionsComponent,
     ViewsComponent,
     ViewComponent
   ],
   imports: [
     CommonModule,
-    InfoRoutingModule
+    InfoRoutingModule,
+    PostModule,
+    UploadModule
   ]
 })
 export class InfoModule { }

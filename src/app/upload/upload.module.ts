@@ -12,6 +12,7 @@ import { UploadCardComponent } from './upload-card/upload-card.component';
   imports: [
     CommonModule,
     UploadRoutingModule
-  ]
+  ],
+  exports:[UploadCardComponent,UploadDataComponent,UploadViewComponent]
 })
 export class UploadModule { }

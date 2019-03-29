@@ -12,6 +12,7 @@ import { PostPaginComponent } from './post-pagin/post-pagin.component';
   imports: [
     CommonModule,
     PostRoutingModule
-  ]
+  ],
+  exports:[PostViewComponent,PostCardComponent,PostDataComponent]
 })
 export class PostModule { }

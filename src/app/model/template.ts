@@ -5,15 +5,16 @@ export class Template {
     datas:Array<TemplateItemFormatted>;
     type:string;        //type of template eg:custom
     userName:string;
-    uid:string;
+    userID:string;
     title:string;
-    allowChanges:boolean;
+    isPublic:boolean;
     css:string;  
     date:Date|firebase.firestore.Timestamp; //last updated
 }
 
 export class TemplateItem {
     id:string;
+    type:String;
     element:HTMLElement;    
     element2:HTMLElement;  //generally HTMLInputElement
     file:File;

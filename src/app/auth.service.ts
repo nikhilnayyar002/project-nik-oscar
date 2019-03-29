@@ -4,6 +4,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore} from '@angular/fire/firestore';
 import {User}  from './model/user';
 import { Router }   from '@angular/router';
+import * as firebase from 'firebase/app';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,7 @@ export class AuthService {
   user:User;
   status:boolean;
   init:boolean; //has initiated the sign-in-check 
-  check$; //only for components in need
+  check$:Observable<firebase.User>; //only for components in need
 
   constructor(
     private router:Router,

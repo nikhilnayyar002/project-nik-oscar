@@ -15,6 +15,7 @@ export class FriendService {
   msg;
   friends$;
   make_friends$;
+  
   constructor(
     private db: AngularFirestore,
     private auth:AuthService)

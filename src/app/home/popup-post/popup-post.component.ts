@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 
 @Component({
-  selector: 'app-popup-post',
-  templateUrl: './popup-post.component.html',
-  styleUrls: ['./popup-post.component.css']
+  selector: 'app-post-palet',
+  templateUrl: './post-palet.component.html',
+  styleUrls: ['./post-palet.component.css']
 })
-export class PopupPostComponent implements OnInit {
+export class PostPaletComponent {
 
-  constructor() { }
+  display='post';
+  constructor() {
 
-  ngOnInit() {
   }
-
+  
 }
+
+

@@ -1,7 +1,7 @@
 import * as firebase from 'firebase/app';
 
 export class Message {
-    uid:string;
+    userID:string;
     userName:string;
     date:Date | firebase.firestore.Timestamp;
     type:'blob'|'post'|'upload'|'group'|'message';

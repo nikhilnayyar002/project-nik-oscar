@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Observable, Subject ,of, combineLatest, Subscribable, Subscription, observable} from 'rxjs';
+import { Observable, Subject , Subscription} from 'rxjs';
 import { debounceTime, map,distinctUntilChanged, switchMap, take} from 'rxjs/operators';
 import { AngularFirestore,Query} from '@angular/fire/firestore';
-import { AngularFireStorage } from '@angular/fire/storage';
 import { encodeImageToUrl, copyToClipboard } from 'src/app/shared/global';
 import { AuthService } from 'src/app/auth.service';
 import { PoolService } from 'src/app/pool.service';
@@ -64,11 +63,8 @@ export class ChatComponent implements OnInit {
     } 
   }
 
-
   /* background variables*/
-  bgSize:'cover'|'contain'='cover';
-  bgY:'center'|'bottom'|'top'='center'; 
-  bgY_old:'center'|'bottom'|'top';  //'save' is clicked after 'edit'
+  bgY:'center'|'bottom'|'top'='center';
   edit=false; 
   bgFile:File;  //background file
   
@@ -80,7 +76,6 @@ export class ChatComponent implements OnInit {
 
   messageType:'blob'|'post'|'upload'|'group'|'message'='message';
   
-
   constructor(
     private cs: ChatService,
     private db:AngularFirestore,
@@ -119,16 +114,14 @@ export class ChatComponent implements OnInit {
   encodeImage(element) {
     let file=element.target.files[0];
     if(file) {
-      let reader=encodeImageToUrl.bind(this)(file);
+      let reader:FileReader=encodeImageToUrl.bind(this)(file);
       if(!reader) {
           (<Group>this.currChat).image='';
           this.bgFile=null;  
       }
       else 
         reader.onloadend=()=>{
-          (<Group>this.currChat).image=<string>reader.result;
-          this.bgSize='contain';
-          setTimeout(()=>{this.bgSize='cover'},0);     
+          (<Group>this.currChat).image=<string>reader.result;   
           this.bgFile=file;
         };
     }
@@ -143,7 +136,6 @@ export class ChatComponent implements OnInit {
 
   editBG() {
     this.edit=!this.edit;
-    if(!this.edit) this.bgY_old=this.bgY;
   }  
 
   scrollTo(id) {
@@ -268,7 +260,6 @@ export class ChatComponent implements OnInit {
       });  
   }
 
- 
   back() {
     this.msgsEnd=false;
     this.showNewMsgsArrived=false;
@@ -290,8 +281,6 @@ export class ChatComponent implements OnInit {
     }
     if(this.groupInfo) return false;
     this.groupInfo=true;
-
-    this.bgSize='contain'; setTimeout(()=>{this.bgSize='cover'},0);    
     this.groupTitle=this.currChat.title;
     (<string>this.bgY)=(<Group>this.currChat).bgY;
     this.groupCreationStage='second';
@@ -400,10 +389,10 @@ export class ChatComponent implements OnInit {
     
   }
 
- paste(event:any) {
+  paste(event:any) {
       let items = (event.clipboardData  || event.originalEvent.clipboardData).items;
       let blob = null;
-      if (items[0].type.indexOf("image") === 0) {
+      if(items.length && items[0].type.indexOf("image") === 0) {
          blob = items[0].getAsFile();
          if (blob !== null) {
            this.file=blob;
@@ -423,19 +412,24 @@ export class ChatComponent implements OnInit {
             this.dataID=t[1];
             if(t[0]=='post')  this.messageType='post';              
             else if(t[0]=='upload')  this.messageType='upload';
-            else if(t[0]=='group')  this.messageType='group';    
+            else if(t[0]=='group')  this.messageType='group';
+            else this.messageType='message';
           },0);
       }
- }
+  }
 
- gotoFirst() {
-  setTimeout(()=>this.friendSearchTerms.next(""),0);
-  this.groupCreationStage='first';
- }
+  gotoFirst() {
+    setTimeout(()=>this.friendSearchTerms.next(""),0);
+    this.groupCreationStage='first';
+  }
+  gotoSecond() {
+    this.image=null;
+    this.groupCreationStage='second';
+  }
 
- copyToClipboard() {  //copy groupid to clipboard
-  copyToClipboard('group:'+ this.currChat.id);
-  return false; 
- }
+  copyToClipboard() {  //copy groupid to clipboard
+   copyToClipboard('group:'+ this.currChat.id);
+   return false; 
+  }
 
 }  

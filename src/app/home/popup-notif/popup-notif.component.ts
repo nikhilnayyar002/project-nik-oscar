@@ -1,15 +1,27 @@
 import { Component, OnInit } from '@angular/core';
+import { NotifService } from 'src/app/notif.service';
+
 
 @Component({
-  selector: 'app-popup-notif',
-  templateUrl: './popup-notif.component.html',
-  styleUrls: ['./popup-notif.component.css']
+  selector: 'app-notif-palet',
+  templateUrl: './notif-palet.component.html',
+  styleUrls: ['./notif-palet.component.css']
 })
-export class PopupNotifComponent implements OnInit {
+export class NotifPaletComponent implements OnInit {
 
-  constructor() { }
+  constructor(private ns:NotifService) {
 
+  }
   ngOnInit() {
+
+  }
+  
+  scroll(link) {
+    let x = document.querySelector(`#${link}`);
+    if (x) x.scrollIntoView();
   }
 
+  ngOnDestroy() {
+    this.ns.viewed();
+  }
 }

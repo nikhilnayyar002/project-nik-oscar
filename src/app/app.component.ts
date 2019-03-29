@@ -6,6 +6,7 @@ import { ViewChild, ComponentFactoryResolver } from '@angular/core';
 import { NotifService } from './notif.service';
 import { ChatComponent } from './home/chat/chat.component';
 import { AuthService } from './auth.service';
+import { PoolService } from './pool.service';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,8 @@ export class AppComponent implements OnInit {
     private fs:FriendService,
     private ns:NotifService,
     public router:Router,
-    public auth:AuthService
+    public auth:AuthService,
+    public ps:PoolService
   )
   { }
 
@@ -50,12 +52,14 @@ export class AppComponent implements OnInit {
           if(user) {
             this.signInLabel="SignOut";
             this.ns.initialize(user.uid);
+            this.ps.intialize(user.uid);
             //this.loadChatComponent();
           }
           else {
             this.signInLabel="SignIn\Up";
             if(this.componentRef) this.componentRef.destroy();
             this.ns.clear();
+            this.ps.clear();
           }
          }
     });

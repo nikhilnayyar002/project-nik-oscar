@@ -7,7 +7,7 @@ export class User {
     image:string;
     bgImage:string;
     detail:string;
-    phone:number;
+    phone:string;
     privacy: {
       showEmail:boolean;
       showAbout:boolean;
