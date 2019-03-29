@@ -7,7 +7,7 @@ export class Post {
     userID:string;
     userName:string;
     date: Date|firebase.firestore.Timestamp;
-    public:boolean;
+    isPublic:boolean;
     type:'template'|'link';
     data:string;      //template | link url
     title:string;     

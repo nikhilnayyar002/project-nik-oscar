@@ -12,6 +12,6 @@ export class Upload {
     title:string;
     fileType:string;
     detail:string;
-    public:boolean;
+    isPublic:boolean;
     fileRef:string;
 }

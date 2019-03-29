@@ -41,7 +41,7 @@ import { SafeStylePipe } from './safe-style.pipe';
     ChatDirective,
     ChatComponent,
     ChatMessageComponent,
-    SafeStylePipe
+    SafeStylePipe,
   ],
   imports: [
     BrowserModule,

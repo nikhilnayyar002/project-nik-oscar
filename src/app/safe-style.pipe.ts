@@ -10,8 +10,9 @@ export class SafeStylePipe implements PipeTransform {
 
   transform(url:string, type:string) {
       let str:string=url;
-      if(type==SafeToType.BackgroundUrl)
-        str=`url(${url}) no-repeat center`;
+      let t=type.split(':');
+      if(t.length>1 && t[0]=='bgY')
+        str=`url(${url}) center ${t[1]} / cover no-repeat`;
       return this.sanitizer.bypassSecurityTrustStyle(str);
   }
 

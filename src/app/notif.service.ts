@@ -21,8 +21,7 @@ export class NotifService {
 
   initialize(uid:string) {
     this.userID=uid;
-    this.subs=this.db.collection("users").doc(uid).collection("others").doc("make")
-    .valueChanges().subscribe((data:{datas:Array<Map<string,string>>;})=>{
+    this.subs=this.ps.make$.subscribe((data:{datas:Array<Map<string,string>>;})=>{
       if(data) {
         this.makeBuffer=data.datas;
         for(const i of data.datas) {

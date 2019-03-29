@@ -1,15 +1,37 @@
 import { Component, OnInit } from '@angular/core';
+import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+import { ActivatedRoute }  from '@angular/router';
+import { AngularFirestore} from '@angular/fire/firestore';
 
 @Component({
-  selector: 'app-user-list',
-  templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.css']
+  selector: 'app-users-list',
+  templateUrl: './users-list.component.html',
+  styleUrls: ['./users-list.component.css']
 })
-export class UserListComponent implements OnInit {
 
-  constructor() { }
+@AutoUnsubscribe()//.pipe(takeWhileAlive(this)) import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
+
+export class UsersListComponent implements OnInit {
+
+  trackById(index: number, user): string {return user.uid; }
+  group;
+
+  constructor(
+  	private route:ActivatedRoute,
+  	private db:AngularFirestore
+  	) { }
 
   ngOnInit() {
+
+   this.route.parent.params.pipe(takeWhileAlive(this)).subscribe(params => {
+       let gid=params["id"];
+       this.db.collection('chats').doc(gid).valueChanges()
+       .pipe(takeWhileAlive(this)).subscribe((data:any)=>{	
+       	 this.group=data;
+       });
+   });
+
   }
 
 }
+

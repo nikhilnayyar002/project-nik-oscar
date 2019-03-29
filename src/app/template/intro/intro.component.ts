@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
+import { global } from 'src/app/shared/global';
 
 @Component({
   selector: 'app-intro',
@@ -7,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IntroComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private db:AngularFirestore,
+    private router:Router
+    ) { }
+
+  templates$;
 
   ngOnInit() {
+  	this.templates$=this.db.collection('templateTypes').valueChanges();
+  }
+
+  navigate(id) {
+  	this.router.navigate([global.templateDesignLink+id]);
   }
 
 }
