@@ -1,0 +1,16 @@
+
+<div class='container' (click)="list.style.display='none'">
+    <div class='search'>
+        <div (click)="$event.stopPropagation()">
+            <input placeholder="search.." autocomplete="off" class='search-box' #searchBox name='userSearch' (input)="search(searchBox.value)" (focus)="list.style.display='block'"/>
+            <div  #list id='list'>
+                <a routerLink="./{{user.id}}" class='row' *ngFor="let user of users$ | async">
+                    {{user.name}}
+                </a>
+            </div> 
+        </div>
+    </div>
+    <div style='overflow: auto;'>
+        <router-outlet></router-outlet>
+    </div>
+</div>

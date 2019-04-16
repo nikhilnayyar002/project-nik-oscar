@@ -1,0 +1,66 @@
+
+  <form>
+  <h2>Please select following options to do privacy:</h2>
+
+   <div class="row">
+    <div class="col-15" style="margin-top: 18px">
+     <input name="email" type="checkbox" [(ngModel)]='user.privacy.showEmail'>
+    </div>
+    <div class="col-85">
+     <label>Show my email</label>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-15" style="margin-top: 18px">
+     <input name="about" type="checkbox" [(ngModel)]='user.privacy.showAbout'>
+    </div>
+    <div class="col-85">
+     <label>Show my about</label>
+    </div>
+   </div>      
+   <div class="row">
+    <div class="col-15" style="margin-top: 18px">
+     <input name="phone" type="checkbox" [(ngModel)]='user.privacy.showPhone'>
+    </div>
+    <div class="col-85">
+     <label>Show my phone no.</label>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-15" style="margin-top: 18px">
+     <input name="image" type="checkbox" [(ngModel)]='user.privacy.showImage'>
+    </div>
+    <div class="col-85">
+     <label>Show my image</label>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-15" style="margin-top: 18px">
+     <input name="bgImage" type="checkbox" [(ngModel)]='user.privacy.showBgImage'>
+    </div>
+    <div class="col-85">
+     <label>Show my background image</label>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-15" style="margin-top: 18px">
+     <input name="friends" type="checkbox" [(ngModel)]='user.privacy.showFriends'>
+    </div>
+    <div class="col-85">
+     <label>Show my friends</label>
+    </div>
+   </div>   
+     
+   <div class="row" *ngIf="!saving">
+    <input type="submit" value="Save" (click)="save()">
+   </div>
+    <div class="row">
+     <label id="msg">{{msg}}</label>
+   </div>
+  </form>
+
+ <!-- This is just an illustration to retrieve an array of values
+   <p> Selected: <strong>{{ myGroup.get('myCategory').value }}</strong></p>
+ -->
+
+

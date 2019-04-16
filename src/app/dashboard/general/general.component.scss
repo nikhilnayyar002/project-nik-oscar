@@ -1,0 +1,43 @@
+$custom-greyish-white:#f5f1f1f2;
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+  display: inline-block;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 4px;
+  margin:10px;
+}
+:host {
+    display: grid;
+    height: 100%;
+    position: relative;
+    background:$custom-greyish-white;
+    padding: 10px;
+    overflow: auto;
+}
+.background-image {
+    margin:0;
+    position: relative;
+}
+.image {
+    width:200px;
+    height:200px;
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+}
+
+@media screen and (max-width: 710px) {
+   .image {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+   }
+}

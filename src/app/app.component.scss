@@ -1,0 +1,138 @@
+$theme-color: #ffc107;
+$theme-background:#d4856994;
+
+
+:host {
+    display: grid;
+    height: 100%;
+    position: relative;
+    color: $theme-color;
+    grid-template-rows: 50px calc(100% - 60px);
+    grid-template-columns: 200px auto;
+    grid-gap: 10px;
+    padding: 10px;
+}
+
+.logo {
+    text-align: center;
+    font-size: 1.3rem;
+    padding: 10px 0;
+}
+.my-badge {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    border-radius: 50%;
+    background-color: red;
+    font-size: 1.2rem;
+}
+
+.active {
+    color: $theme-color;
+}
+.topbar {
+    grid-row: 1/span 1;
+    grid-column:1/span 2; 
+    background: $theme-background;
+    grid-template-columns: 50px auto repeat(4,50px);
+    display: grid;
+}
+.topbar-no-user {
+    grid-template-columns: 50px auto 50px;  
+}
+.topbar>i,.topbar>a {
+    font-size: 30px;
+    padding: 10px 0;
+    text-align: center;
+    color: $theme-color;
+}
+.sidebar {
+    grid-row:2/span 1;
+    grid-column: 1/span 1;
+    position: relative;
+    background: $theme-background;
+    display: grid;
+    grid-auto-rows: auto;
+    z-index: 25;
+    transition: left 0.5s;
+    grid-template-rows: repeat(3, max-content);
+}
+
+.sidebar .links {
+    color: white;
+    overflow: auto;
+}
+.sidebar>div {
+    color:$theme-color;
+}
+
+.sidebar .links a{
+    display: table;
+    font-size: 1.2rem;
+    margin:20px;
+}
+.sidebar .links a i {
+    font-size: 30px;
+    padding:0 10px;
+    color: inherit;
+}
+.sidebar .links a span {
+    display: table-cell;
+    vertical-align: middle;
+    color: inherit;
+}
+.sidebar .shorten {
+    position: absolute;
+    top:0;
+    right: 0;
+    height: 100%;
+}
+
+.sidebar .shorten a {
+    position: absolute;
+    top: 50%;
+    right: -10px;
+    border: 1px solid;
+    transform: translate(0%,-50%);
+    font-size: 40px;
+}
+
+.sidebar .image-container {
+    display: grid;
+    padding: 20px 0;
+}
+.sidebar .user-image {
+    border-radius: 100%;
+    width:100px;
+    height:100px;
+    background:grey;
+    justify-self: center;
+    align-self:   center;
+}
+.sidebar .user-name {
+    font-size: 1.2rem;
+    text-align: center;
+    padding: 20px 0;
+    font-style: italic;
+}
+.main {
+    grid-row: 2/span 1;
+    grid-column: 2/span 1;
+    background: #00000057;
+    padding: 10px;
+    overflow: auto;
+    position: relative;
+}
+.sidebar-overlay {
+    display: none;
+    top:70px;
+}
+
+@media screen and (max-width: 900px) {
+    .sidebar {
+        left:-200px-10px;
+    }
+    .main {
+        grid-column: 1/span 2; 
+    }
+}

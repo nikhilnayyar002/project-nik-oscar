@@ -1,0 +1,291 @@
+
+/*templates*/
+@import 'assets/custom-template.scss';
+@import 'assets/edit-template.scss';
+
+
+.carousel{position:relative}.carousel.pointer-event{-ms-touch-action:pan-y;touch-action:pan-y}.carousel-inner{position:relative;width:100%;overflow:hidden}.carousel-inner::after{display:block;clear:both;content:""}.carousel-item{position:relative;display:none;float:left;width:100%;margin-right:-100%;-webkit-backface-visibility:hidden;backface-visibility:hidden;transition:-webkit-transform .6s ease-in-out;transition:transform .6s ease-in-out;transition:transform .6s ease-in-out,-webkit-transform .6s ease-in-out}@media (prefers-reduced-motion:reduce){.carousel-item{transition:none}}.carousel-item-next,.carousel-item-prev,.carousel-item.active{display:block}.active.carousel-item-right,.carousel-item-next:not(.carousel-item-left){-webkit-transform:translateX(100%);transform:translateX(100%)}.active.carousel-item-left,.carousel-item-prev:not(.carousel-item-right){-webkit-transform:translateX(-100%);transform:translateX(-100%)}.carousel-fade .carousel-item{opacity:0;transition-property:opacity;-webkit-transform:none;transform:none}.carousel-fade .carousel-item-next.carousel-item-left,.carousel-fade .carousel-item-prev.carousel-item-right,.carousel-fade .carousel-item.active{z-index:1;opacity:1}.carousel-fade .active.carousel-item-left,.carousel-fade .active.carousel-item-right{z-index:0;opacity:0;transition:0s .6s opacity}@media (prefers-reduced-motion:reduce){.carousel-fade .active.carousel-item-left,.carousel-fade .active.carousel-item-right{transition:none}}.carousel-control-next,.carousel-control-prev{position:absolute;top:0;bottom:0;z-index:1;display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center;-ms-flex-pack:center;justify-content:center;width:15%;color:#fff;text-align:center;opacity:.5;transition:opacity .15s ease}@media (prefers-reduced-motion:reduce){.carousel-control-next,.carousel-control-prev{transition:none}}.carousel-control-next:focus,.carousel-control-next:hover,.carousel-control-prev:focus,.carousel-control-prev:hover{color:#fff;text-decoration:none;outline:0;opacity:.9}.carousel-control-prev{left:0}.carousel-control-next{right:0}.carousel-control-next-icon,.carousel-control-prev-icon{display:inline-block;width:20px;height:20px;background:no-repeat 50%/100% 100%}.carousel-control-prev-icon{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3e%3c/svg%3e")}.carousel-control-next-icon{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3e%3cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3e%3c/svg%3e")}.carousel-indicators{position:absolute;right:0;bottom:0;left:0;z-index:15;display:-ms-flexbox;display:flex;-ms-flex-pack:center;justify-content:center;padding-left:0;margin-right:15%;margin-left:15%;list-style:none}.carousel-indicators li{box-sizing:content-box;-ms-flex:0 1 auto;flex:0 1 auto;width:30px;height:3px;margin-right:3px;margin-left:3px;text-indent:-999px;cursor:pointer;background-color:#fff;background-clip:padding-box;border-top:10px solid transparent;border-bottom:10px solid transparent;opacity:.5;transition:opacity .6s ease}@media (prefers-reduced-motion:reduce){.carousel-indicators li{transition:none}}.carousel-indicators .active{opacity:1}.carousel-caption{position:absolute;right:15%;bottom:20px;left:15%;z-index:10;padding-top:20px;padding-bottom:20px;color:#fff;text-align:center}
+.sr-only {
+  display:none;
+}
+/*-------------------------------------------------------------carousel*/
+
+.dumpster .carousel,
+.dumpster .carousel-inner,
+.dumpster .carousel-item,
+.dumpster img
+{
+    height: 100%;
+    width: 100%;
+}
+
+/*-------------------------------------------------------------Main*/
+
+*{
+    box-sizing: border-box;
+    border-radius: 20px;
+    color:#4c4c4a;
+    object-fit: cover;
+}
+:root {
+    font-family: 'robot',arial;
+    font-size: 16px;
+}
+html,body {
+    padding:0;
+    margin:0;
+    height:100%;
+}
+
+#container {
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    background:url('assets/images/sample.jpg') center center/ cover no-repeat;
+    animation: background-opacity 0.5s linear 0s;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:link {
+  color: inherit;
+  text-decoration: none;
+}
+a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+    cursor:pointer;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.overlay {
+    top:0;
+    bottom: 0;
+    left:0;
+    right:0;
+    background:#0000008f;
+    cursor: pointer;
+}
+.overlay-fixed {
+    position: fixed;
+    z-index: 20;
+}
+.overlay-absolute {
+    position: absolute;
+    z-index: 15;
+}
+
+.shadow-scale:hover {
+  box-shadow: 0px 0px 11px 6px #1111113b;
+  transform: scale(1.02, 1.02);
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 140px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -75px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.center-this {
+  justify-self: center;
+  align-self: center;
+}
+
+.my-ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.card {
+  box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19);
+}
+.card:hover {
+  transform: translate(-2px,-3px);
+}
+.shorten {
+  position: relative;
+}
+.shorten-btn {
+    border: 1px solid;
+    position: absolute;
+    top: 50%;
+    right: 0%;
+    font-size: 40px;
+    transform: translate(25%,-50%);
+    background: #ffc107;
+    color: #986b4c;
+}
+.my-row {
+    padding: 5px;
+    margin:5px;
+    background: orange;
+    color:white;
+}
+.custom-checkbox {
+  transform: translateY(25%);
+  height: 25px;
+  width: 25px;
+}
+.button-chip {
+  padding: 10px;
+  border: 1px solid;
+  background: cornflowerblue;
+  margin: 10px;
+}
+.badge {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.small-image {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+}
+/*-------------------------------------------------------------Form*/
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+  margin:10px;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.form-container {
+  background-color: #fbfbfbd6;
+  padding: 20px;
+  position: absolute;
+  right: 0;
+  min-width: 60%;
+}
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+.col-15 {
+  float: left;
+  width: 15%;
+  margin-top: 6px;
+}
+.col-85 {
+  float: left;
+  width: 85%;
+  margin-top: 6px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/*-------------------------------------------------------------templates*/
+.template {
+  background: olive;
+  color: white;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+/*-------------------------------------------------------------MediaQuery*/
+@media screen and (max-width: 600px) {
+  .col-25, .col-75  {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+/*-------------------------------------------------------------nikhilnayyar.me*/
+
+.nik-special{
+border-radius: 50%;
+object-fit:cover;
+display: block;
+margin-left: auto;
+margin-right: auto;
+}
+.shadow:hover { box-shadow: 0px 0px 9px 6px rgba(0, 0, 0, 0.08); }
+.border-w {border:.2em solid white; }
+/* animations*/
+
+@keyframes background-opacity  {
+  0%   {opacity: 0;}
+  25% { opacity: 0.3;}
+  100%  {opacity: 1;}
+}

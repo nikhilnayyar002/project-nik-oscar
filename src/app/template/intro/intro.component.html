@@ -1,0 +1,12 @@
+<div class="welcome">
+  <h2>Templates (create html page)</h2>
+  <p>Below are the available templates so far. Click and proceed to develop.</p>
+</div>
+<a [routerLink]="['./design', template.id]" class="block card" *ngFor="let template of templates$ | async;">
+  <div style='font-size: 1.4rem;'>
+      {{template.id}} template
+  </div>
+  <div style='padding: 10px 0;'>
+      {{template.info}}
+  </div>
+</a>

@@ -1,0 +1,60 @@
+$theme-color: #ffc107;
+$theme-background-dark:#d48569d1;
+$custom-greyish-white:#f5f1f1f2;
+
+* {
+    color: white;
+}
+
+:host {
+    display: grid;
+    height: 100%;
+    position: relative;
+    background:$custom-greyish-white;
+    padding: 10px;
+    grid-template-areas: "main main";
+    grid-template-rows: 15% 85%;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 5px;
+}
+.main {
+    grid-area: main;
+    overflow: auto;
+    display: grid;
+    grid-auto-rows: max-content;
+    grid-template-columns: auto;
+    padding: 10px;
+    grid-gap:5px;
+    background: cadetblue;
+}
+.left{
+    background: orange;
+    display: grid;
+    grid-template-rows: 35% 65%;
+    grid-template-columns: auto;
+}
+.left>div {
+    overflow: auto;
+    display: grid;
+    grid-auto-rows: max-content;
+    grid-template-columns: auto;
+    padding: 10px;
+    grid-gap:5px;
+}
+.left>div .row {
+    background: #916645;
+    padding: 10px;
+    font-size: 1.2rem;
+}
+
+.left .options  {
+    background: steelblue;
+}
+
+
+.right{
+    background: white;
+    z-index: 5;
+    display: grid;
+    grid-template-columns: 10px auto;
+}

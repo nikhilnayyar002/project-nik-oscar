@@ -1,0 +1,26 @@
+<div class="card" [id]="getID(upload.id)">
+
+  <div class="head">
+    <p><b><a style="padding: 1px 5px;" routerLink='/info/users/{{upload.userID}}'>{{upload.userName}}</a></b></p>
+    <p>{{upload.date.toDate() | date:'medium'}}</p>
+    <p style="color:orange">{{upload.fileType}}</p>
+  </div>
+
+  <div class="container">
+    <img class="post-image" [src]="upload.data" *ngIf="upload.fileType=='image'">
+    <h3 >{{upload.title}}</h3> 
+    <div style="white-space: pre-wrap;">{{upload.detail}}</div>
+  </div>
+  
+  <div class="container" (click)="$event.stopPropagation()" >
+
+    <div class="main-options clearfix" >
+        <a href="" (click)="download()" >{{upload.type=='link'?'open link':'download'}}</a>
+         <div class="tooltip" style="width: 50%">
+          <a href="" style="width: 100%" (click)="copyToClipboard()" (mouseout)='tooltipText="Copy to clipboard"'>share</a>
+          <span class="tooltiptext" #myTooltip [innerHtml]='tooltipText'>Copy to clipboard</span>
+        </div>
+    </div>
+
+  </div>
+</div>

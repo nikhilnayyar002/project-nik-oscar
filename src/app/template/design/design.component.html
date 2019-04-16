@@ -1,0 +1,58 @@
+<div class='main'>
+
+  <span style='font-size: 1.5rem;padding: 10px 0;'>{{typeData?.id}} Template</span>
+  <ng-container *ngIf="!doing; else elseTemplate">
+
+    <div class="row">
+        <div class="col-25">
+            Template URL:
+        </div>
+        <div class="col-75">
+            {{template?('/info/view/'+template.title+'-_-_-_-'+template.id):'' }}
+        </div>
+    </div>    
+    <div class="row">
+     <div class="col-25">
+      <label for="title">Title</label>
+     </div>
+     <div class="col-75">
+      <input style='color:grey' type="text" name="title" id="title" [formControl]="title">
+     </div>
+    </div>
+
+    <div class="row">
+      <label for="acess">Make public</label>
+      <input class='custom-checkbox' type="checkbox" style="width: 20px; height: 20px; position: relative; top: 5px;"  [(ngModel)]="isPublic" name="acess" style="margin:14px;">
+    </div>
+
+    <div style='text-align: center;padding: 10px;'>
+      <ng-container *ngIf="title.errors; else createTemplate">
+       {{title.errors?'title':''}} is required!
+      </ng-container>
+      <ng-template #createTemplate>
+        <span class='button-chip' *ngIf="create=='save'"(click)="delete()">Delete</span>
+        <span  class='button-chip' (click)="do()">{{create}}</span> 
+      </ng-template>
+    </div>
+ 
+  </ng-container>
+  
+  <ng-template #elseTemplate>
+      <span>{{msg}}</span>
+  </ng-template>
+
+</div>
+<div class='left'>
+  <div class='options'>
+    <span class='row' *ngFor="let option of options;" (click)="createElem(option.split(':')[0])">{{option.split(':')[1]}}</span>   									
+  </div>
+  <div class='controls' id="left"></div>
+</div>
+<div id='right' class='right'>
+  <div id='shorten' class="shorten">
+    <a id='more_shorten_a' class="material-icons shorten-btn" style="border-left:1px solid" (click)="shortenClick()" [innerHTML]='shortenArrow'></a>
+  </div>
+</div>
+
+
+   
