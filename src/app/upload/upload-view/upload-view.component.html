@@ -1,0 +1,5 @@
+
+<app-upload-card  *ngFor="let upload of (inputPosts?inputPosts:uploads); trackBy: trackById" [upload]="upload">
+</app-upload-card>
+
+<h3 *ngIf="uploads?.length==0">No record</h3>

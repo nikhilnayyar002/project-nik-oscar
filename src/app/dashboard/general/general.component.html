@@ -1,0 +1,67 @@
+
+<div #bgImageElement class="background-image" [style.background]="bgImage | safeStyle :('bgY:'+bgY)">
+     <img  class="nik-special image" [src]="image?image:'assets/images/no-user.png'">
+     <label for="main-upload" class="custom-file-upload" style="position: absolute;bottom: 5px;left: 5px;" >
+       Upload
+     </label>
+     <div class="clearfix" style="position: absolute;top:5px;right: 5px;">
+       <label for="background-upload" class="custom-file-upload" style="float: right;">
+         Upload
+       </label>
+       <label *ngIf="bgImage!=''" class="custom-file-upload" style="float: right;" (click)="editBG()">
+          {{edit?'save':'edit'}}
+       </label>
+     </div>        
+     <div class="clearfix" *ngIf="edit" style="position: absolute;top:40px;right: 5px;">               
+        <label class="custom-file-upload" style="float: right;" (click)="moveBG('d')">
+          &darr;
+        </label>
+        <label class="custom-file-upload" style="float: right;" (click)="moveBG('u')">
+          &uarr;
+        </label> 
+     </div>      
+     <input id="background-upload" type="file" (change)="encodeImage($event,'bgImage')"/>
+     <input id="main-upload" type="file" (change)="encodeImage($event,'image')"/>
+</div>
+
+  <form>
+   <div class="row">
+    <div class="col-25">
+     <label for="title">Name:</label>
+    </div>
+    <div class="col-75">
+     <input type="text" name="name" id="name"  [(ngModel)]="user.name" placeholder="Eg: Dynamo or Joe or Rohit">
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-25">
+     <label for="link">Email:</label>
+    </div>
+    <div class="col-75">
+       <p>{{user?.email}}</p>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-25">
+     <label for="title">Phone no:</label>
+    </div>
+    <div class="col-75">
+     <input type="text" name="phone" id="phone"  [(ngModel)]="user.phone" placeholder="Eg: +91-9999955555">
+    </div>
+   </div>     
+    <div class="row">
+     <div class="col-25">
+      <label for="detail">detail</label>
+     </div>
+     <div class="col-75">
+      <textarea id="detail"  [(ngModel)]="user.detail" name="about" placeholder="Your self.." style="height:200px"></textarea>
+     </div>
+    </div>
+   <div class="row" *ngIf="!saving">
+    <input type="submit" value="Save" (click)="saveFile(file,'image')"> 
+    <a class="custom-file-upload" style="padding: 10px 10px;float: right;" routerLink="/info/users/{{user?.id}}">View as Other</a>         
+   </div>    
+    <div class="row">
+     <label id="msg">{{msg}}</label>
+   </div>
+  </form>

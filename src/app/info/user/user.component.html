@@ -1,0 +1,58 @@
+
+
+<div #bgImageElement class="background-image" [style.background]="user?.bgImage | safeStyle :('bgY:'+user?.bgY)">
+  
+  <ng-container *ngIf="user; else showNoUserBG">
+      <img  class="nik-special image" [src]="user.image?user.image:'assets/images/no-user.png'">        
+      <label class="custom-file-upload" style="z-index:0;position: absolute;bottom: 5px;right: 5px;" *ngIf="status!='?'" (click)="friendBtn()" >
+        {{status}}
+      </label>
+      <h2 class='center-label custom-user-name'>
+        {{user?.name}}
+      </h2>    
+  </ng-container>
+
+  <ng-template #showNoUserBG>
+    <span class='center-label'>Type and search</span>
+  </ng-template>
+  
+</div>
+<div class='info' *ngIf='user' >
+  <div class='detail'>
+      {{user.detail}}
+  </div>
+  <div style='text-align: center'>
+      <div class='right-skewed-chips' *ngIf="postsObject$ | async as datas">
+        <a href='' (click)="selected='posts';buffer=datas;false">Posts ({{datas.length}})</a>
+      </div>
+      <div class='right-skewed-chips' *ngIf="uploadsObject$ | async as datas">
+        <a href='' (click)="selected='uploads';buffer=datas;false">Uploads ({{datas.length}})</a>
+      </div>
+      <div class='right-skewed-chips' *ngIf="friendsObject$ | async as datas">
+        <a href='' (click)="selected='friends';buffer=datas;false">Friends ({{datas.length}})</a>
+      </div>
+  </div>
+  <app-post-view *ngIf='selected=="posts"' class="correct-me" [inputPosts]='buffer'></app-post-view>
+  <app-upload-view  *ngIf='selected=="uploads"' class="correct-me" [inputPosts]='buffer'></app-upload-view>
+  <div class='user-list' *ngIf='selected=="friends"'>
+    <div class='user' *ngFor="let user of buffer">
+      <img class='image' [src]="user.image?user.image:'assets/images/no-user.png'" alt="">
+      <div class='name'>{{user.name}}</div>
+    </div>
+  </div>
+  
+  <div class='contact clearfix'>
+    <div class='contact-label'>Contact me</div>
+
+    <ng-container *ngIf='user.privacy.showEmail'>
+        <div>Email:</div>
+        <div>{{user?.email}}</div>
+    </ng-container>
+    <ng-container *ngIf='user.privacy.showPhone'>
+        <div>Phone:</div>
+        <div>{{user?.phone}}</div>  
+    </ng-container>
+             
+  </div>  
+</div>
+

@@ -1,0 +1,32 @@
+.notif-container {
+    display: grid;
+    grid-auto-rows: auto;
+    padding: 5px;
+    grid-gap: 5px;
+}
+.notif-container .message {
+    display: grid;
+    grid-template-columns: 100px auto;
+    grid-auto-rows: auto;
+}
+.notif-container .message .image {
+    width: 100px;
+    height: 100px;
+}
+.notif-container .message .heading {
+    color: #ffc107;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin: 5px;
+}
+.notif-container .message .detail {
+    margin: 10px 5px;
+    color: white;
+}
+.notif-container .message .message-button {
+    position: absolute;
+    bottom: -5px;
+    left: 55px;
+    padding: 10px 15px;
+    font-size: 1.2rem;
+}

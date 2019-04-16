@@ -1,0 +1,42 @@
+.container {
+	float: left;
+	width:50%;
+	padding: 5px;
+}
+.row {
+	padding: 5px;
+	margin:5px;
+	background: orange;
+	color:white;
+}
+h3 {
+    display: block;
+    margin: 0; 
+    padding: 20px; 
+}
+
+$custom-greyish-white:#f5f1f1f2;
+:host {
+    display: grid;
+    height: 100%;
+    position: relative;
+    background:$custom-greyish-white;
+    padding: 10px;
+    overflow: hidden;
+    grid-template-rows: 100%;
+    grid-template-columns: 1fr 1fr;
+}
+.left {
+    grid-column: 1/span 1;
+    grid-row: 1;
+    padding: 10px;
+    overflow: auto;
+}
+.right {
+    grid-column: 2/span 1;
+    grid-row: 1;
+    display: grid;
+    grid-template-columns: 10px auto;
+    padding: 10px;
+    z-index: 5;
+}

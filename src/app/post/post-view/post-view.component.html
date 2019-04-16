@@ -1,0 +1,5 @@
+
+<app-post-card class="width-toggle"  *ngFor="let post of (inputPosts?inputPosts:posts); trackBy: trackById" [post]="post">
+</app-post-card>
+
+<h3 *ngIf="posts?.length==0">No record</h3>

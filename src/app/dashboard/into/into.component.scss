@@ -1,0 +1,40 @@
+$theme-color: #ffc107;
+$theme-background-dark:#d48569d1;
+$custom-greyish-white:#f5f1f1f2;
+
+:host {
+    display: grid;
+    height: 100%;
+    position: relative;
+    background:$custom-greyish-white;
+    padding: 10px;
+    overflow: auto;
+    grid-template-rows: repeat(4, 15vw);
+    grid-template-columns: repeat(3, calc(22vw - 10px));
+    grid-gap: 10px;
+    grid-template-areas: "welcome welcome welcome";
+}
+.block {
+    background: white;
+    display: grid;
+    font-size: 1.4rem;
+}
+.welcome {
+    grid-area: welcome;
+}
+@media screen and (max-width: 900px) and (min-width: 710px) {
+    :host {
+        grid-template-rows: repeat(4, 20vw);
+        grid-template-columns: repeat(3, calc(30vw - 10px));
+    }
+}
+@media screen and (max-width: 710px) {
+    :host {
+        grid-template-rows: minmax(24vw,max-content) repeat(3, 24vw);
+        grid-template-columns: repeat(3, calc(34% - 10px));
+        grid-auto-rows: 24vw;
+    }      
+    .block {
+        grid-column: 1/span 2;
+    }
+}

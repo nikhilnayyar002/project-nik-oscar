@@ -1,0 +1,25 @@
+
+<div class="page" id="page">
+	
+
+	<div style='margin: 20px;padding: 10px;background: #ffc107;'>
+		<h1 style='font-size: 2.5rem;'>
+					{{template?.title}}
+		</h1>		
+		<div class='user-template-detail' *ngIf="user$ | async as user">
+			<img class='nik-special small-image' [src]="user?.image?user.image:'assets/images/no-user.png'" alt="">
+			<div class='information'>
+					<div class='name'>
+							{{user.name}}
+					</div>
+					<div class='date'>
+							{{template?.date.toDate() | date:'medium'}}
+					</div>
+			</div>
+		</div>	
+	</div>
+  <h1 *ngIf='error'>
+		{{error}}
+	</h1>
+	
+</div>

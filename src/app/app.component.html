@@ -1,0 +1,69 @@
+
+<div class="topbar" [class.topbar-no-user]='!auth.user'>
+  <a class='material-icons' (click)="dashboardClick()">menu</a>
+  <span></span>
+
+  <ng-container *ngIf="auth.status">  <!--chatBox.style.display='block';-->
+    <a class='material-icons'[skipLocationChange]='true' [routerLink]="[{ outlets: { popup: ['popup-upload'] } }]" (click)="popupCheck('popup-upload')">cloud_upload</a>
+    <a class="material-icons" [skipLocationChange]='true' [routerLink]="[{ outlets: { popup: ['popup-post'] } }]" (click)="popupCheck('popup-post')">tag_faces</a>
+    <a style='position: relative;' class="material-icons" [skipLocationChange]='true' [routerLink]="[{ outlets: { popup: ['popup-notif'] } }]" (click)="popupCheck('popup-notif')">
+      notifications
+      <span *ngIf='ns.count!=0' class="my-badge">1</span>
+    </a>
+  </ng-container>
+  <a class="material-icons" [ngStyle]="{'color': auth.status?'#ffc107':'grey'}"[skipLocationChange]='true' [routerLink]="[{ outlets: { popup: ['popup-login'] } }]" (click)="popupCheck('popup-login')">account_circle</a>
+
+</div>
+
+<div class='overlay overlay-fixed sidebar-overlay' (click)="dashboardClick()"></div>
+<div class="sidebar" #sidebar>
+  <!--
+  <div class="shorten">
+    <a class="material-icons" style="border-left:1px solid" (click)="false"> keyboard_arrow_left </a>
+  </div>
+  -->
+  <div class="logo">nik~oscar</div>
+  <div class="image-container">
+    <img [src]="auth.user?.image?auth.user.image:'assets/images/no-user.png'" class="user-image">
+  </div>
+  <div class="user-name">{{auth.user?auth.user.name:'-'}}</div>
+  
+  <div class="links">
+    <a routerLink="/home" routerLinkActive="active">
+      <i class="material-icons"> home </i>
+      <span class="">Home</span>
+    </a>
+    <a routerLink="/dashboard" routerLinkActive="active">
+      <i class="material-icons"> dashboard </i>
+      <span >Dashboard</span>
+    </a>
+    <a routerLink="/posts" routerLinkActive="active">
+      <i class="material-icons"> picture_in_picture </i>
+      <span >Posts</span>
+    </a>
+    <a routerLink="/uploads" routerLinkActive="active">
+      <i class="material-icons"> cloud_download </i>
+      <span >Uploads</span>
+    </a>
+    <a routerLink="/info" routerLinkActive="active">
+      <i class="material-icons"> search </i>
+      <span>Search</span>
+    </a>        
+    <a routerLink="/template" routerLinkActive="active">
+      <i class="material-icons"> web </i>
+      <span> Templates</span>
+    </a>
+  </div>
+
+</div>
+
+<div class="main" (click)="bodyClk($event)">
+  <!--
+  <div  #chatBox id="chatBox" style="display: none">
+      <app-chat></app-chat>
+  </div>
+  -->
+  <router-outlet name="popup"></router-outlet>
+  <router-outlet></router-outlet>
+</div>
+

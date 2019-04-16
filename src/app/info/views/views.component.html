@@ -1,0 +1,15 @@
+<div class="welcome">
+    <h2>Site pages</h2>
+    <p>Below are the pages created on this site..</p>
+  </div>
+  <a [routerLink]="[ '../view', template.title+'-_-_-_-'+template.id]" class="block card" *ngFor="let template of templates$ | async;">
+    <div style='font-size: 1.4rem;'>
+        {{template.title}}
+    </div>
+    <div style='padding: 10px 0;'>
+        Author: {{template.userName}}
+    </div>
+  </a>
+  
+  
+  

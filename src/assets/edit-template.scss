@@ -1,0 +1,46 @@
+
+.all-time-badge-container{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    color: white;
+  }
+  
+  .all-time-badge-container span{
+    padding: 10px;
+    border: 1px solid;
+    background: #916645;
+    margin: 5px;
+    color: white;
+  }
+  .all-time-badge-container .type{
+     border: none;
+     font-weight: bold;
+     background:none;
+     font-size: 1.2rem;
+  }
+  
+  .all-time-div {
+      padding: 5px;
+      border: 1px solid white;
+      position: relative;
+      background: #8BC34A;
+      padding-top: 80px;
+  }
+  .all-time-div input {
+      width: 100%;
+  }    
+  .all-time-div textarea {
+      width: 100%;
+      border: none;
+      padding: 10px 10px;
+     /* resize: none; */
+  }
+  
+  .all-time-div  label{
+    padding: 10px;
+    border: 1px solid;
+    background: #916645;
+    margin: 5px;
+    color: white;
+  }

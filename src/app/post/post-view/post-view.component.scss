@@ -1,0 +1,24 @@
+$theme-color: #ffc107;
+$theme-background-dark:#d48569d1;
+$custom-greyish-white:#f5f1f1f2;
+
+:host {
+    display: grid;
+    height: 100%;
+    position: relative;
+    background:$custom-greyish-white;
+    padding: 10px;
+    overflow: auto;
+    grid-auto-rows: auto;
+    grid-template-columns: auto;
+    grid-gap: 10px;
+}
+
+.width-toggle {
+    width:70%;
+}
+@media screen and (max-width: 600px) {
+    .width-toggle {
+        width:100%;
+    }
+}

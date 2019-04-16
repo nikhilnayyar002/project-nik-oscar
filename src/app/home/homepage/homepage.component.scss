@@ -1,0 +1,55 @@
+$theme-color: #ffc107;
+$theme-background-dark:#d48569d1;
+
+*{
+    text-decoration: none;
+    border-radius: 20px;
+}
+
+:host {
+    display: grid;
+    height: 100%;
+    position: relative;
+    color: black;
+    grid-template-rows: repeat(4, 15vw);
+    grid-template-columns: repeat(3,23vw);
+    grid-gap: 10px;
+    grid-template-areas: "dumpster dumpster notices"
+                         "dumpster dumpster notices";
+}
+.dumpster {
+   grid-area: dumpster;
+   background: $theme-background-dark;
+
+}
+.dumpster *{
+    color:white
+}
+
+.block {
+    background: white;
+    display: grid;
+    font-size: 1.4rem;
+}
+
+.notices {
+    grid-area: notices;
+    background:white;
+}
+@media screen and (max-width: 900px) and (min-width: 710px) {
+    :host {
+        grid-template-rows: repeat(4, 20vw);
+        grid-template-columns: repeat(3, 30vw);
+    }
+}
+@media screen and (max-width: 710px) {
+    :host {
+        grid-template-rows: repeat(4, 24vw);
+        grid-template-columns: repeat(3, calc(34% - 10px));
+        grid-template-areas: "dumpster dumpster dumpster"
+                             "dumpster dumpster dumpster"
+                             "notices notices notices"
+    }       
+
+}
+
