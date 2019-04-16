@@ -3,7 +3,9 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+
     "nik-oscar-lucky": {
+
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",

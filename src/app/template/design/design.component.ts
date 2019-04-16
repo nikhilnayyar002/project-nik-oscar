@@ -263,7 +263,6 @@ export class DesignComponent {
       file:null,
       time:time?time:(new Date()).getTime().toString()
     });
-
     return element;
 
      //li = document.createElement('li');

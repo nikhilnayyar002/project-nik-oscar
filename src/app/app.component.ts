@@ -62,7 +62,6 @@ export class AppComponent implements OnInit {
           }
          }
     });
-
     /*
     window.onresize=()=>{
       console.log('w: '+window.innerWidth+', h:'+window.innerHeight);
