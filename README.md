@@ -1,6 +1,8 @@
 
 # NikOscarLucky
-<a href='https://nikoscar.firebaseapp.com'>Visit this app</a>
+<a href='https://nikoscar.firebaseapp.com'>Current Release</a>
+<a href='https://dynamo-t.firebaseapp.com'>First release</a>
+
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.6.
 
