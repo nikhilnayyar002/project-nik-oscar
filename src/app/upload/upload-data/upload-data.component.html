@@ -90,14 +90,14 @@
   </fieldset>
 
 
-  <div class="row" *ngIf="!uploading && !(title.errors || link.errors)">
+  <div class="row" *ngIf="!uploading && !(title.errors || (dataType.value=='link' && link.errors))">
    <input type="submit" value="upload" (click)="uploadData()">
    <input type="submit" *ngIf="!!upload" value="delete" (click)="delete()">
   </div>
 
   <div class="row">
-    <ng-container *ngIf="title.errors || link.errors; else msgTemplate">
-      {{title.errors?'title, ':''}}{{link.errors?'link':''}} is required!
+    <ng-container *ngIf="title.errors || (dataType.value=='link' && link.errors); else msgTemplate">
+      {{title.errors?'title ':''}}{{(dataType.value=='link' && link.errors)?'link ':' '}} is required!
     </ng-container>
     <ng-template #msgTemplate>
       {{us.msg}}

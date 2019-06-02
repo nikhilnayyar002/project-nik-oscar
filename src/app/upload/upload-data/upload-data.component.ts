@@ -166,7 +166,10 @@ export class UploadDataComponent implements OnInit {
       this.dataType.value=='file'?this.file:this.link.value,
       this.title.value, this.fileType.value, this.detail.value, this.isPublic
     );
-    if(typeof(t)=='string') return this.us.msg=t;
+    if(typeof(t)=='string') {
+      this.uploading=false;
+      return this.us.msg=t;
+    } 
     else if(t instanceof Promise) {
       t.then(()=>{
         this.uploading=false;
