@@ -1,0 +1,163 @@
+
+#Styles
+
+	@assets/custom-template.scss
+	@assets/edit-template.scss
+	@styles.scss
+	->
+		.carousel, *{, :root, #container, .clearfix, .shadow-scale, .small-image, .button-chip, .custom-checkbox, .shorten-btn, .center-this, .nik-special
+	<-
+	@into.component.scss[#('grid')]
+
+#Services
+
+	@UploadService
+	->
+		@Injectable(), try catch, finalize(rxjs), take(1), Promise.all(proms)
+		uploadData(..),delete(..)
+	<-
+	@PostService
+	->
+		@Injectable(), 
+		postData(..), delete(..), likePost(..), commentPost(..)
+	<-
+	@PoolService
+	->
+		defer(rxjs), mergeMap(rxjs), combineLatest(rxjs)
+	<-
+	@NotifService
+	->
+		rtnChanged
+	<-
+	@FriendService
+	->
+		request(..), unRequest(..), accept(..), unFriend(..)
+	<-
+	@ChatService
+	->
+		sendMessage(..), createDiscussion(..), createChat(..), accept(..)
+	<-
+	@AuthService
+	->
+		signIn(..), signUp(..), signOut(..), setStatus(..)
+	<-	
+
+
+#Component
+	@MoreComponent
+	->
+		MediaQueryList, window.matchMedia
+	<-
+	@GeneralComponent
+	->
+		 @ViewChild, ElementRef;
+	<-
+	@UserComponent
+	->
+		takeWhile(rxjs)
+	<-
+	@PostDataComponent
+	->
+		paste(..), encodeImage(..), ngOnChanges(), ngAfterViewInit(), FormControl
+	<-
+	@DesignComponent*
+	->
+		forkJoin(rxjs)
+	<-
+	@UploadViewComponent
+	->
+		fragment
+	<-
+
+
+#Directive
+	@ChatDirective
+
+
+#Pipes
+	@SafeStylePipe
+	->
+		DomSanitizer, (expected code for me  url | safeStyle:'bgY:{{bgY}}')
+	<-
+
+#Guards
+	@AuthGuard
+	->
+		DomSanitizer, (expected code for me  url | safeStyle:'bgY:{{bgY}}')
+	<-
+#Interesting things
+	@myrxjsrecipe
+	->
+  		getPostsObject(id:string) {
+  		  let t=this.db.collection("users").doc(id)
+  		  .collection("others").doc<{datas:Array<string>;}>("posts").valueChanges();
+		
+  		  let y=t.pipe(
+  		    map(data=>data.datas.reverse()),
+  		    mergeMap(datas=>
+  		        combineLatest(
+  		          datas.map(n=>this.posts$.pipe(
+  		              this.rtnDefaultIDFilter<Post>(n),map(datas=>datas[0])
+ 		             )
+  		          )
+  		        )
+  		    )
+  		  ); 
+  		  return defer(()=>y);  
+  		}
+	<-
+	@router
+	->
+		this.router.navigate([{ outlets: { primary:'home',palet: null }}]);
+	<-
+	@stringsandenum
+	->
+		i.type!=NotifType.ChatRequest
+	<-
+	@grid
+	->
+		grid-column: 2/span 1;
+    	grid-row: 1;
+    	display: grid;
+    	grid-template-columns: 10px auto;
+    	grid-auto-rows: auto;
+    	grid-gap: 5px;
+    	grid-template-areas: "welcome";
+    	grid-auto-rows: max-content;
+    	grid-area: welcome;
+	<-
+	@*ng
+	->
+		*ngIf="chatsObject$ | async as chats"
+
+ 		 @HostListener('click') onClick() {
+    		if(this.post && this.post.data) {
+      			if(this.post.type=='link')
+        			window.open(this.post.data)
+      			else 
+        			this.router.navigate([this.post.data]);
+    	 	}
+  		 };
+
+	<-
+	@typescript
+	->
+		bgY:'center'|'bottom'|'top'='center';
+	<-
+
+#mistakes
+	@AuthService
+	->
+	        g.pipe(take(1)).subscribe((data)=>{
+                this.setStatus('online',user.uid);  
+                this.user=data;
+                this.status=true;    
+                obs.next(true);
+            });
+            this.userSubs=g.subscribe((data)=> {
+                this.user=data;
+            });
+	<-
+
+
+
