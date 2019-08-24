@@ -11,8 +11,9 @@ import { ViewsComponent } from './views/views.component';
 import { ViewComponent } from './view/view.component';
 import { PostModule } from '../post/post.module';
 import { UploadModule } from '../upload/upload.module';
-import { UsersListComponent } from './users-list/users-list.component';
 import { SharedModule } from '../shared.module';
+import { UsersListComponent } from './users-list/users-list.component';
+import { UserListComponent } from './user-list/user-list.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { SharedModule } from '../shared.module';
     DiscussionsComponent,
     ViewsComponent,
     ViewComponent,
+    UserListComponent,
     UsersListComponent
   ],
   imports: [

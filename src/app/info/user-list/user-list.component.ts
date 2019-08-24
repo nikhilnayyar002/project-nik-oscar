@@ -5,13 +5,12 @@ import { AngularFirestore} from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-users-list',
-  templateUrl: './users-list.component.html',
-  styleUrls: ['./users-list.component.css']
+  templateUrl: './user-list.component.html'
 })
 
 @AutoUnsubscribe()//.pipe(takeWhileAlive(this)) import { AutoUnsubscribe, takeWhileAlive } from 'take-while-alive';
 
-export class UsersListComponent implements OnInit {
+export class UserListComponent implements OnInit {
 
   trackById(index: number, user): string {return user.uid; }
   group;

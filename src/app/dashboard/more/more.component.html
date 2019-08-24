@@ -1,63 +1,135 @@
-
-
 <div class="left">
-    <h2>Simple details:</h2>
+  <h2>Simple details:</h2>
 
-    <div (click)="display='posts'" class="row shadow-scale" *ngIf="postsObject$ | async as posts">
-        <h3 >Posts ({{posts.length}})</h3>
-        <div [style.display]="display=='posts'?'block':'none'">
-         <a class="row shadow-scale" style="background: green;display:block;" *ngFor="let d of posts; let i = index" (click)="data=d">
-         {{d?.title}}
-         </a>
-        </div>              
+  <div
+    (click)="display = 'posts'"
+    class="row shadow-scale"
+    *ngIf="postsObject$ | async as posts"
+  >
+    <h3>Posts ({{ posts.length }})</h3>
+    <div [style.display]="display == 'posts' ? 'block' : 'none'">
+      <a
+        class="row shadow-scale"
+        style="background: green;display:block;"
+        *ngFor="let d of posts; let i = index"
+        (click)="data = d"
+      >
+        {{ d?.title }}
+      </a>
     </div>
-    <div (click)="display='uploads'" class="row shadow-scale" *ngIf="uploadsObject$ | async as uploads">
-        <h3 >Uploads ({{uploads.length}})</h3>
-        <div [style.display]="display=='uploads'?'block':'none'">
-         <a class="row shadow-scale" style="background: green;display:block;" *ngFor="let d of uploads; let i = index" (click)="data=d">
-         {{d?.title}}
-         </a>
-        </div>              
+  </div>
+  <div
+    (click)="display = 'uploads'"
+    class="row shadow-scale"
+    *ngIf="uploadsObject$ | async as uploads"
+  >
+    <h3>Uploads ({{ uploads.length }})</h3>
+    <div [style.display]="display == 'uploads' ? 'block' : 'none'">
+      <ng-container *ngFor="let d of uploads; let i = index">
+        <a
+          *ngIf="d"
+          class="row shadow-scale"
+          style="background: green;display:block;"
+          (click)="data = d"
+        >
+          {{ d?.title }}
+        </a>
+      </ng-container>
     </div>
-    <div (click)="display='friends'" class="row shadow-scale" *ngIf="friendsObject$ | async as friends">
-        <h3 >Friends ({{friends.length}})</h3>
-        <div [style.display]="display=='friends'?'block':'none'">
-         <a [routerLink]="[ '/info/users/', d.id ]" class="row shadow-scale" style="background: green;display:block;" *ngFor="let d of friends; let i = index" (click)="data=d">
-         {{d?.name}}
-         </a>
-        </div>              
-    </div>  
-    <div (click)="display='chats'" class="row shadow-scale" *ngIf="chatsObject$ | async as chats">
-        <h3 >Groups ({{chats.length}})</h3>
-        <div [style.display]="display=='chats'?'block':'none'">
-         <a class="row shadow-scale" style="background: green;display:block;" *ngFor="let d of chats; let i = index" (click)="data=d">
-         {{d?.title}}
-         </a>
-        </div>              
+  </div>
+  <div
+    (click)="display = 'friends'"
+    class="row shadow-scale"
+    *ngIf="friendsObject$ | async as friends"
+  >
+    <h3>Friends ({{ friends.length }})</h3>
+    <div [style.display]="display == 'friends' ? 'block' : 'none'">
+      <ng-container *ngFor="let d of friends; let i = index">
+        <a
+          *ngIf="d"
+          [routerLink]="['/info/users/', d.id]"
+          class="row shadow-scale"
+          style="background: green;display:block;"
+          (click)="data = d"
+        >
+          {{ d?.name }}
+        </a>
+      </ng-container>
     </div>
-    <div (click)="display='templates'" class="row shadow-scale" *ngIf="templatesObject$ | async as templates">
-        <h3 >Templates ({{templates.length}})</h3>
-        <div [style.display]="display=='templates'?'block':'none'">
-         <a [routerLink]="[ '/template/design/', d.type+'-'+d.id ]" class="row shadow-scale" style="background: green;display:block;" *ngFor="let d of templates; let i = index" (click)="data=d">
-         {{d?.title}}
-         </a>
-        </div>              
-    </div>          
-
+  </div>
+  <div
+    (click)="display = 'chats'"
+    class="row shadow-scale"
+    *ngIf="chatsObject$ | async as chats"
+  >
+    <h3>Groups ({{ chats.length }})</h3>
+    <div [style.display]="display == 'chats' ? 'block' : 'none'">
+      <a
+        class="row shadow-scale"
+        style="background: green;display:block;"
+        *ngFor="let d of chats; let i = index"
+        (click)="data = d"
+      >
+        {{ d?.title }}
+      </a>
+    </div>
+  </div>
+  <div
+    (click)="display = 'templates'"
+    class="row shadow-scale"
+    *ngIf="templatesObject$ | async as templates"
+  >
+    <h3>Templates ({{ templates.length }})</h3>
+    <div [style.display]="display == 'templates' ? 'block' : 'none'">
+      <a
+        [routerLink]="['/template/design/', d.type + '-' + d.id]"
+        class="row shadow-scale"
+        style="background: green;display:block;"
+        *ngFor="let d of templates; let i = index"
+        (click)="data = d"
+      >
+        {{ d?.title }}
+      </a>
+    </div>
+  </div>
 </div>
 <div class="right" style="background: brown">
-
   <div class="shorten">
-      <a id='more_shorten_a' class="material-icons shorten-btn" style="border-left:1px solid" (click)="shortenClick()" [innerHTML]='shortenArrow'></a>
+    <a
+      id="more_shorten_a"
+      class="material-icons shorten-btn"
+      style="border-left:1px solid"
+      (click)="shortenClick()"
+      [innerHTML]="shortenArrow"
+    ></a>
   </div>
 
-  <div *ngIf="data&&(data.iam=='post'||data.iam=='upload')" style='overflow: auto'>
-    <app-post-card *ngIf='data.iam=="post"' style="display: block; width: 100%;" [post]="data"></app-post-card>
-    <app-upload-card *ngIf='data.iam=="upload"' style="display: block; width: 100%;" [upload]="data"></app-upload-card>    
-  
-    <app-post-data  (deletedEvent)='data=null;' style="position: relative;display: block;" [post]='data' *ngIf='data.iam=="post"'></app-post-data>
-    <app-upload-data (deletedEvent)='data=null;' style="position: relative;display: block;" [upload]='data' *ngIf='data.iam=="upload"'></app-upload-data> 
-  </div>
+  <div
+    *ngIf="data && (data.iam == 'post' || data.iam == 'upload')"
+    style="overflow: auto"
+  >
+    <app-post-card
+      *ngIf="data.iam == 'post'"
+      style="display: block; width: 100%;"
+      [post]="data"
+    ></app-post-card>
+    <app-upload-card
+      *ngIf="data.iam == 'upload'"
+      style="display: block; width: 100%;"
+      [upload]="data"
+    ></app-upload-card>
 
+    <app-post-data
+      (deletedEvent)="data = null"
+      style="position: relative;display: block;"
+      [post]="data"
+      *ngIf="data.iam == 'post'"
+    ></app-post-data>
+    <app-upload-data
+      (deletedEvent)="data = null"
+      style="position: relative;display: block;"
+      [upload]="data"
+      *ngIf="data.iam == 'upload'"
+    ></app-upload-data>
+  </div>
 </div>
-
