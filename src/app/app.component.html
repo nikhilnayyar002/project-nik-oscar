@@ -29,27 +29,27 @@
   <div class="user-name">{{auth.user?auth.user.name:'-'}}</div>
   
   <div class="links">
-    <a routerLink="/home" routerLinkActive="active">
+    <a routerLink="/home" routerLinkActive="active" [skipLocationChange]='ispopupOpen'>
       <i class="material-icons"> home </i>
       <span class="">Home</span>
     </a>
-    <a routerLink="/dashboard" routerLinkActive="active">
+    <a routerLink="/dashboard" routerLinkActive="active" [skipLocationChange]='ispopupOpen'>
       <i class="material-icons"> dashboard </i>
       <span >Dashboard</span>
     </a>
-    <a routerLink="/posts" routerLinkActive="active">
+    <a routerLink="/posts" routerLinkActive="active" [skipLocationChange]='ispopupOpen'>
       <i class="material-icons"> picture_in_picture </i>
       <span >Posts</span>
     </a>
-    <a routerLink="/uploads" routerLinkActive="active">
+    <a routerLink="/uploads" routerLinkActive="active" [skipLocationChange]='ispopupOpen'>
       <i class="material-icons"> cloud_download </i>
       <span >Uploads</span>
     </a>
-    <a routerLink="/info" routerLinkActive="active">
+    <a routerLink="/info" routerLinkActive="active" [skipLocationChange]='ispopupOpen'>
       <i class="material-icons"> search </i>
       <span>Search</span>
     </a>        
-    <a routerLink="/template" routerLinkActive="active">
+    <a routerLink="/template" routerLinkActive="active" [skipLocationChange]='ispopupOpen'>
       <i class="material-icons"> web </i>
       <span> Templates</span>
     </a>

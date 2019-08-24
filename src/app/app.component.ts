@@ -92,12 +92,25 @@ export class AppComponent implements OnInit {
     x.addListener(mediaQueryFor900px.bind(this));
   }
   
+  /** created just for routes in sidebar.
+   *  actually when i have a popup opened and then i clicked some router link in sidebar
+   *  it reveals the popup in browser url and get stored as a history which you do 
+   *  not want to have like.
+   * 
+   *  In short this thing works like a charm
+   */
+  ispopupOpen:boolean = false;
+  
+  /** some kind of check */
   popupCheck(popup) {
 
     if(this.isLessThan900px && this.sidebar.nativeElement.style.left=='0px')
       this.dashboardClick(false);
     if(this.router.url.includes(popup)) {
       this.router.navigate([{ outlets: { popup: null  }}]);
+      this.ispopupOpen = false
+    } else {
+      this.ispopupOpen = true
     }
     
   }
