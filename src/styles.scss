@@ -83,6 +83,7 @@ a:hover {
 .overlay-absolute {
     position: absolute;
     z-index: 15;
+    overflow: auto;
 }
 
 .shadow-scale:hover {
@@ -289,3 +290,37 @@ margin-right: auto;
   25% { opacity: 0.3;}
   100%  {opacity: 1;}
 }
+
+/*            special      */
+
+@mixin createCustomScrollbar($width, $thumb-bg, $thumb-radius) {
+  /* width */
+  ::-webkit-scrollbar {
+    width: $width;
+    height:$width;
+  }
+
+  /* Track */
+//   ::-webkit-scrollbar-track {
+//     box-shadow: inset 0 0 5px grey;
+//     border-radius: 10px;
+//   }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgba($thumb-bg, 0.4);
+    border-radius: $thumb-radius;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba($thumb-bg, 0.7);
+  }
+
+  /* Firefox */
+  *{
+    scrollbar-width: thin;
+    scrollbar-color: $thumb-bg  transparent;
+  }
+}
+@include createCustomScrollbar(7px,#ffc107, 10px);

@@ -28,6 +28,7 @@ import { SharedModule } from './shared.module';
 import { PopupUploadComponent } from './home/popup-upload/popup-upload.component';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     UploadModule,
     AppRoutingModule,
     SharedModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [{ provide: FirestoreSettingsToken, useValue: {} }
   ],
