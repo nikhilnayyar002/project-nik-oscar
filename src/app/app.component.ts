@@ -112,7 +112,10 @@ export class AppComponent implements OnInit {
     } else {
       this.ispopupOpen = true
     }
-    
+
+    /** disable scrolling of main when popup on. */
+    let main:HTMLElement = document.querySelector(".main");
+    main.style.overflow = this.ispopupOpen?"hidden":"auto";
   }
 
   bodyClk(event) {
