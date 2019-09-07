@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { PopupLoginComponent } from './home/popup-login/popup-login.component';
 import { PopupPostComponent } from './home/popup-post/popup-post.component';
 import { PopupNotifComponent } from './home/popup-notif/popup-notif.component';
-import { PopupMessageComponent } from './home/popup-message/popup-message.component';
 import { AuthGuard } from './auth/auth.guard';
 import { PageNotFoundComponent } from './home/page-not-found/page-not-found.component';
 import { HomepageComponent } from './home/homepage/homepage.component';
@@ -32,12 +31,7 @@ const routes: Routes = [
     component: PopupNotifComponent,
     outlet: 'popup',
     canActivate: [AuthGuard]
-  },
-  {
-    path: 'popup-message',
-    component: PopupMessageComponent,
-    outlet: 'popup',
-  },  
+  }, 
   {
     path: 'home',
     component: HomepageComponent,

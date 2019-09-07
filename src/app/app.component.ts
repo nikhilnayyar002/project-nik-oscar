@@ -4,7 +4,6 @@ import { FriendService} from './friend.service';
 import { ChatDirective } from './chat.directive';
 import { ViewChild, ComponentFactoryResolver } from '@angular/core';
 import { NotifService } from './notif.service';
-import { ChatComponent } from './home/chat/chat.component';
 import { AuthService } from './auth.service';
 import { PoolService } from './pool.service';
 
@@ -30,17 +29,9 @@ export class AppComponent implements OnInit {
   signInLabel="SignIn\Up";
   @ViewChild(ChatDirective) chatHost: ChatDirective;
   @ViewChild('sidebar') sidebar:ElementRef;
-  componentRef:ComponentRef<ChatComponent>;
   isLessThan900px=false;
   toggleChatBox=false;
 
-
-  loadChatComponent() {
-    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(ChatComponent);
-    let viewContainerRef = this.chatHost.viewContainerRef;
-    viewContainerRef.clear();
-    this.componentRef = viewContainerRef.createComponent(componentFactory);
-  }
 
   @HostListener('window:beforeunload', [ '$event' ])
   beforeUnloadHander(event) {
@@ -56,7 +47,6 @@ export class AppComponent implements OnInit {
             //this.loadChatComponent();
           }
           else {
-            if(this.componentRef) this.componentRef.destroy();
             this.ns.clear();
             this.ps.clear();
           }
@@ -113,9 +103,6 @@ export class AppComponent implements OnInit {
       this.ispopupOpen = true
     }
 
-    /** disable scrolling of main when popup on. */
-    let main:HTMLElement = document.querySelector(".main");
-    main.style.overflow = this.ispopupOpen?"hidden":"auto";
   }
 
   bodyClk(event) {

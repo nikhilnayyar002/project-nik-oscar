@@ -75,15 +75,15 @@ a:hover {
     right:0;
     background:#0000008f;
     cursor: pointer;
+    overflow: auto;
 }
 .overlay-fixed {
     position: fixed;
-    z-index: 20;
+    z-index: 25;
 }
 .overlay-absolute {
     position: absolute;
-    z-index: 15;
-    overflow: auto;
+    z-index: 20;
 }
 
 .shadow-scale:hover {
