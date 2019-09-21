@@ -3,7 +3,7 @@
   <a class='material-icons' (click)="dashboardClick()">menu</a>
   <span></span>
 
-  <ng-container *ngIf="auth.status">  <!--chatBox.style.display='block';-->
+  <ng-container *ngIf="auth.user">  <!--chatBox.style.display='block';-->
     <a class='material-icons'[skipLocationChange]='true' [routerLink]="[{ outlets: { popup: ['popup-upload'] } }]" (click)="popupCheck('popup-upload')">cloud_upload</a>
     <a class="material-icons" [skipLocationChange]='true' [routerLink]="[{ outlets: { popup: ['popup-post'] } }]" (click)="popupCheck('popup-post')">tag_faces</a>
     <a style='position: relative;' class="material-icons" [skipLocationChange]='true' [routerLink]="[{ outlets: { popup: ['popup-notif'] } }]" (click)="popupCheck('popup-notif')">
