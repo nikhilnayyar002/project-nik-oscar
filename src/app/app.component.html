@@ -33,10 +33,6 @@
       <i class="material-icons"> home </i>
       <span class="">Home</span>
     </a>
-    <a routerLink="/dashboard" routerLinkActive="active" [skipLocationChange]='ispopupOpen'>
-      <i class="material-icons"> dashboard </i>
-      <span >Dashboard</span>
-    </a>
     <a routerLink="/posts" routerLinkActive="active" [skipLocationChange]='ispopupOpen'>
       <i class="material-icons"> picture_in_picture </i>
       <span >Posts</span>
@@ -49,10 +45,17 @@
       <i class="material-icons"> search </i>
       <span>Search</span>
     </a>        
-    <a routerLink="/template" routerLinkActive="active" [skipLocationChange]='ispopupOpen'>
-      <i class="material-icons"> web </i>
-      <span> Templates</span>
-    </a>
+
+    <ng-container *ngIf="auth.user">
+      <a routerLink="/dashboard" routerLinkActive="active" [skipLocationChange]='ispopupOpen'>
+        <i class="material-icons"> dashboard </i>
+        <span >Dashboard</span>
+      </a>
+      <a routerLink="/template" routerLinkActive="active" [skipLocationChange]='ispopupOpen'>
+        <i class="material-icons"> web </i>
+        <span> Templates</span>
+      </a>
+    </ng-container>
   </div>
 
 </div>

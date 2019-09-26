@@ -39,12 +39,13 @@ html,body {
     margin:0;
     height:100%;
 }
-
+body {
+  background:url('assets/images/sample.jpg') center center/ cover no-repeat;
+}
 #container {
     height: 100%;
     position: fixed;
     width: 100%;
-    background:url('assets/images/sample.jpg') center center/ cover no-repeat;
     animation: background-opacity 0.5s linear 0s;
 }
 

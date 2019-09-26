@@ -16,7 +16,7 @@ import { UsersListComponent } from './users-list/users-list.component';
 const routes: Routes = [
   {
     path: 'info',
-    canActivate:[AuthGuard],
+    // canActivate:[AuthGuard],
     children: [
       {
         path: '',
